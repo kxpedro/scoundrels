@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, inArray, isNotNull, ne, sql } from "drizzle-orm";
+import { and, desc, eq, gte, inArray, isNotNull, lt, ne, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import {
@@ -100,7 +100,19 @@ export async function getCriticReviews(gameId: string, limit = 4) {
     .limit(limit);
 }
 
-export async function getUserReviews(gameId: string, limit = 4) {
+export type Tone = "positivas" | "mistas" | "negativas";
+
+/** Faixas de nota do público (mesmas de scoreTone/sentimentOf). */
+const toneFilter = (tone: Tone | undefined) =>
+  tone === "positivas"
+    ? gte(userReviews.score, 7)
+    : tone === "mistas"
+      ? and(gte(userReviews.score, 5), lt(userReviews.score, 7))
+      : tone === "negativas"
+        ? lt(userReviews.score, 5)
+        : undefined;
+
+export async function getUserReviews(gameId: string, limit = 4, tone?: Tone) {
   "use cache";
   cacheLife("minutes");
   cacheTag(tags.gameReviews(gameId));
@@ -119,8 +131,8 @@ export async function getUserReviews(gameId: string, limit = 4) {
     .from(userReviews)
     .innerJoin(user, eq(user.id, userReviews.userId))
     .leftJoin(gameStatuses, and(eq(gameStatuses.userId, userReviews.userId), eq(gameStatuses.gameId, userReviews.gameId)))
-    .where(and(eq(userReviews.gameId, gameId), eq(userReviews.visibility, "visible")))
-    .orderBy(desc(userReviews.likeCount))
+    .where(and(eq(userReviews.gameId, gameId), eq(userReviews.visibility, "visible"), toneFilter(tone)))
+    .orderBy(desc(userReviews.likeCount), desc(userReviews.createdAt))
     .limit(limit);
 }
 

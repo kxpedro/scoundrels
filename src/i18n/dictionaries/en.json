@@ -19,7 +19,15 @@
     "headline": "Merciless game reviews",
     "lead": "The Scoundrel newsroom's score next to the verdict of people who played it.",
     "latest": "Recently reviewed",
-    "empty": "No reviewed games yet. Run npm run db:seed to load samples."
+    "empty": "No reviewed games yet. Run npm run db:seed to load samples.",
+    "featured": "Featured review",
+    "latestCritics": "Latest from the newsroom",
+    "top": "Top Scoundrel",
+    "topYear": "This year",
+    "topAll": "All time",
+    "topPublic": "Players",
+    "topEmpty": "No games in this ranking yet.",
+    "by": "by {name}"
   },
   "game": {
     "studio": "Studio",
@@ -212,5 +220,51 @@
     "pros": "Pros",
     "cons": "Cons",
     "published": "Published"
+  },
+  "catalog": {
+    "title": "Games",
+    "count": "{n} games",
+    "countOne": "{n} game",
+    "sort": "Sort",
+    "sortNota": "Scoundrel score",
+    "sortPublico": "Player score",
+    "sortLancamento": "Release date",
+    "genre": "Genre",
+    "platform": "Platform",
+    "year": "Year",
+    "clear": "Clear filters",
+    "loadMore": "Load more",
+    "empty": "No games match these filters.",
+    "releasedIn": "Released in {date}",
+    "studio": "Studio"
+  },
+  "critics": {
+    "title": "Critics",
+    "lead": "The Scoundrel newsroom: the people behind the official reviews.",
+    "reviews": "Reviews",
+    "average": "Average score",
+    "howRates": "How they score",
+    "published": "Published reviews",
+    "none": "No published reviews yet."
+  },
+  "reviewsPage": {
+    "title": "Reviews",
+    "lead": "Everything the Scoundrel newsroom has published, newest first."
+  },
+  "gamePages": {
+    "criticsTitle": "Scoundrel critics · {game}",
+    "publicTitle": "Players · {game}",
+    "all": "All",
+    "back": "Back to {game}"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Game, critic or review",
+    "submit": "Search",
+    "games": "Games",
+    "critics": "Critics",
+    "reviews": "Reviews",
+    "empty": "Nothing found for “{q}”.",
+    "hint": "Type at least 2 letters."
   }
 }

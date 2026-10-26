@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Archivo_Black, Chakra_Petch, Inter, Share_Tech_Mono } from "next/font/google";
 import { locales } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
+import { siteUrl } from "@/lib/site-url";
 import "../globals.css";
 
 const archivoBlack = Archivo_Black({ weight: "400", subsets: ["latin"], variable: "--font-archivo-black" });
@@ -16,8 +17,10 @@ export async function generateStaticParams() {
 export async function generateMetadata(): Promise<Metadata> {
   const dict = await getDictionary();
   return {
+    metadataBase: new URL(siteUrl()),
     title: { default: dict.meta.title, template: "%s · Scoundrels" },
     description: dict.meta.description,
+    openGraph: { siteName: "Scoundrels" },
   };
 }
 

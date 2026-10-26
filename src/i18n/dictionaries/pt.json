@@ -19,7 +19,15 @@
     "headline": "Reviews de jogos sem piedade",
     "lead": "A nota da redação Scoundrel ao lado da opinião de quem jogou.",
     "latest": "Lançamentos avaliados",
-    "empty": "Nenhum jogo avaliado ainda. Rode npm run db:seed para carregar exemplos."
+    "empty": "Nenhum jogo avaliado ainda. Rode npm run db:seed para carregar exemplos.",
+    "featured": "Review em destaque",
+    "latestCritics": "Últimas da redação",
+    "top": "Top Scoundrel",
+    "topYear": "Este ano",
+    "topAll": "Todos",
+    "topPublic": "Público",
+    "topEmpty": "Ainda sem jogos neste ranking.",
+    "by": "por {name}"
   },
   "game": {
     "studio": "Estúdio",
@@ -212,5 +220,51 @@
     "pros": "Prós",
     "cons": "Contras",
     "published": "Publicada em"
+  },
+  "catalog": {
+    "title": "Jogos",
+    "count": "{n} jogos",
+    "countOne": "{n} jogo",
+    "sort": "Ordenar",
+    "sortNota": "Nota Scoundrel",
+    "sortPublico": "Nota do público",
+    "sortLancamento": "Lançamento",
+    "genre": "Gênero",
+    "platform": "Plataforma",
+    "year": "Ano",
+    "clear": "Limpar filtros",
+    "loadMore": "Carregar mais",
+    "empty": "Nenhum jogo com esses filtros.",
+    "releasedIn": "Lançados em {date}",
+    "studio": "Estúdio"
+  },
+  "critics": {
+    "title": "Críticos",
+    "lead": "A redação Scoundrel: quem escreve as reviews oficiais.",
+    "reviews": "Reviews",
+    "average": "Nota média",
+    "howRates": "Como avalia",
+    "published": "Reviews publicadas",
+    "none": "Nenhuma review publicada ainda."
+  },
+  "reviewsPage": {
+    "title": "Reviews",
+    "lead": "Tudo o que a redação Scoundrel publicou, do mais recente ao mais antigo."
+  },
+  "gamePages": {
+    "criticsTitle": "Crítica Scoundrel · {game}",
+    "publicTitle": "Público · {game}",
+    "all": "Todas",
+    "back": "Voltar para {game}"
+  },
+  "search": {
+    "title": "Buscar",
+    "placeholder": "Jogo, crítico ou review",
+    "submit": "Buscar",
+    "games": "Jogos",
+    "critics": "Críticos",
+    "reviews": "Reviews",
+    "empty": "Nada encontrado para “{q}”.",
+    "hint": "Digite pelo menos 2 letras."
   }
 }

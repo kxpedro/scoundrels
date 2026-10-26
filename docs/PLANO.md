@@ -24,7 +24,7 @@ Site de reviews de jogos com **crítica oficial** (jornalistas Scoundrel) e **re
 
 1. **Fundação** — scaffold, design system, schema, auth com papéis, i18n, página de jogo de exemplo. ✅
 2. **Redação** — importação IGDB, editor de review (Tiptap), fluxo de aprovação, gestão de papéis, denúncias, página pública da review. ✅
-3. **Site público** — home, página do jogo com dados reais, página da review, perfil do crítico, busca, páginas de gênero/plataforma/estúdio.
+3. **Site público** — home, catálogo com filtros (gênero/plataforma/ano/estúdio), perfil e lista de críticos, críticas e público por jogo, listagem de reviews, busca, sitemap. ✅
 4. **User reviews** — nota + texto, User Score, denúncias e moderação.
 5. **Social** — curtidas, comentários, status de jogo, listas, seguir + feed.
 

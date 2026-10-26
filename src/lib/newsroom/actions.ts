@@ -13,10 +13,10 @@ import { getIgdbGame, IgdbNotConfiguredError, searchIgdbGames, type IgdbGame } f
 import { canDecide, canEdit, canSubmit } from "@/lib/newsroom/permissions";
 import { catalogIgdbIds } from "@/lib/newsroom/queries";
 import { createManualGame, upsertIgdbGame } from "@/lib/newsroom/catalog";
+import { ensureHandle } from "@/lib/newsroom/handles";
 import { tags } from "@/lib/queries/games";
 import { getSession } from "@/lib/session";
 import { hasRole, isRole, type Role } from "@/lib/session-roles";
-import { slugify } from "@/lib/slug";
 
 /**
  * Server Actions são endpoints POST públicos: toda ação revalida sessão e permissão aqui,
@@ -162,15 +162,13 @@ export async function publishReview(id: string) {
   if (!canDecide(me, review)) throw new Error("Sem permissão");
   if (!isComplete(review)) throw new Error("incomplete");
 
-  const [[game], [author]] = await Promise.all([
+  const [[game], handle] = await Promise.all([
     db.select({ slug: games.slug }).from(games).where(eq(games.id, review.gameId)).limit(1),
-    db.select({ handle: user.handle, name: user.name }).from(user).where(eq(user.id, review.authorId)).limit(1),
+    ensureHandle(review.authorId),
   ]);
   // Slug definitivo: jogo + autor (+ idioma quando não for o padrão). Mantido em republicações.
   const slug = review.slug.startsWith("rascunho-")
-    ? [game.slug, author.handle ?? slugify(author.name || review.authorId), review.locale !== "pt" && review.locale]
-        .filter(Boolean)
-        .join("-")
+    ? [game.slug, handle, review.locale !== "pt" && review.locale].filter(Boolean).join("-")
     : review.slug;
 
   await db
@@ -245,6 +243,8 @@ export async function setUserRole(formData: FormData): Promise<{ ok: boolean; er
     .update(user)
     .set({ role, title: z.string().trim().max(60).nullable().catch(null).parse(formData.get("title") || null) })
     .where(eq(user.id, target.id));
+  if (role !== "user") await ensureHandle(target.id);
+  updateTag(tags.games); // lista pública de críticos
   refresh();
   return { ok: true };
 }

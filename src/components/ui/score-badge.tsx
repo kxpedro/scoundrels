@@ -42,6 +42,8 @@ type Props = {
   caption?: string;
   href?: string;
   className?: string;
+  /** Só para a variante inline: "lg" no destaque da home. */
+  size?: "md" | "lg";
 };
 
 function Meter({ value, bar, track }: { value: number; bar: string; track: string }) {
@@ -52,7 +54,7 @@ function Meter({ value, bar, track }: { value: number; bar: string; track: strin
   );
 }
 
-export function ScoreBadge({ value, kind, variant, label, caption, href, className }: Props) {
+export function ScoreBadge({ value, kind, variant, label, caption, href, className, size = "md" }: Props) {
   const empty = value === null;
   const tone = empty ? "cyan" : scoreTone(value, kind);
   const shown = empty ? "—" : formatScore(value, { average: variant === "hero" || variant === "card" });
@@ -114,7 +116,15 @@ export function ScoreBadge({ value, kind, variant, label, caption, href, classNa
     );
   } else {
     body = (
-      <span className={cn("chamfer-sm font-score inline-block px-2.5 py-0.5 text-lg font-bold", solid[tone])}>{shown}</span>
+      <span
+        className={cn(
+          "font-score inline-block font-bold",
+          size === "lg" ? "chamfer px-3.5 py-1 text-3xl" : "chamfer-sm px-2.5 py-0.5 text-lg",
+          solid[tone],
+        )}
+      >
+        {shown}
+      </span>
     );
   }
 

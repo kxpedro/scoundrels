@@ -19,3 +19,10 @@ export function formatRelative(date: Date | string, labels: Dictionary["time"], 
 export function formatCount(n: number, lang: string): string {
   return n.toLocaleString(lang === "pt" ? "pt-BR" : "en-US");
 }
+
+/** "Rafael Mendes" → "RM"; "kira.exe" → "KI". */
+export function initials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length > 1) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  return (parts[0] ?? "").slice(0, 2).toUpperCase();
+}

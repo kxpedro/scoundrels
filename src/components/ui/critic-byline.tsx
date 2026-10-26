@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { cn } from "@/lib/cn";
-
-function initials(name: string): string {
-  const parts = name.trim().split(/\s+/);
-  return ((parts[0]?.[0] ?? "") + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
-}
+import { initials } from "@/lib/format";
 
 export function CriticByline({
   href,
