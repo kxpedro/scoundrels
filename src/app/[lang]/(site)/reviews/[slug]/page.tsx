@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Cover } from "@/components/game/cover";
 import { ReviewBody } from "@/components/review/review-body";
+import { CommentsThread } from "@/components/social/comments-thread";
+import { LikeButton } from "@/components/social/like-button";
 import { CriticByline } from "@/components/ui/critic-byline";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { Tag } from "@/components/ui/tag";
@@ -85,6 +87,17 @@ async function ReviewContent({ params }: Pick<PageProps<"/[lang]/reviews/[slug]"
 
       <div className="mt-8">
         <ReviewBody doc={review.body} />
+      </div>
+
+      <div className="mt-8 flex flex-wrap items-start gap-5 border-t border-line pt-4 text-[13px] text-muted">
+        <LikeButton kind="critic" id={review.id} count={review.likeCount} loginHref={path(lang, "/entrar")} labels={dict.social} />
+        <CommentsThread
+          kind="critic"
+          reviewId={review.id}
+          count={review.commentCount}
+          lang={lang}
+          labels={{ social: dict.social, report: dict.report, time: dict.time, roles: dict.roles }}
+        />
       </div>
 
       <aside className="chamfer mt-12 flex flex-wrap items-center gap-5 bg-panel p-4">

@@ -366,7 +366,21 @@ export const listItems = pgTable(
     position: smallint("position").notNull(),
     note: text("note"),
   },
-  (t) => [primaryKey({ columns: [t.listId, t.gameId] })],
+  (t) => [primaryKey({ columns: [t.listId, t.gameId] }), index("list_items_game_idx").on(t.gameId)],
+);
+
+export const listLikes = pgTable(
+  "list_likes",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    listId: uuid("list_id")
+      .notNull()
+      .references(() => lists.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.listId] })],
 );
 
 export const follows = pgTable(

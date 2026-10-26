@@ -26,7 +26,15 @@ Site de reviews de jogos com **crítica oficial** (jornalistas Scoundrel) e **re
 2. **Redação** — importação IGDB, editor de review (Tiptap), fluxo de aprovação, gestão de papéis, denúncias, página pública da review. ✅
 3. **Site público** — home, catálogo com filtros (gênero/plataforma/ano/estúdio), perfil e lista de críticos, críticas e público por jogo, listagem de reviews, busca, sitemap. ✅
 4. **User reviews** — régua de nota, texto opcional com spoiler, status (jogando/zerei/abandonei), "Sua review" editável, denúncia com 4 motivos e ocultação automática com 3 denúncias, limites anti-spam. ✅
-5. **Social** — curtidas, comentários, status de jogo, listas, seguir + feed.
+5. **Social** — curtidas (reviews e listas), comentários com denúncia, status de jogo persistido, perfil /u com abas, listas (ranking, notas, reordenar, públicas/privadas), seguir + feed com sugestões, página Minha conta. ✅
+
+## Próximos passos
+
+- Deploy: Vercel + Neon (variáveis, `db:migrate`, domínio)
+- OAuth Google/Discord, Resend, trocar o segredo do IGDB
+- Imagens no editor (Vercel Blob) e imagens OG de compartilhamento
+- Notificações (comentários, novos seguidores)
+- Testes automatizados dos fluxos críticos; revisão de acessibilidade e desempenho
 
 ## Pendências do usuário
 

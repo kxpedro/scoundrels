@@ -5,6 +5,7 @@ import { AudienceBreakdown } from "@/components/game/audience-breakdown";
 import { CriticReviewCard } from "@/components/game/critic-review-card";
 import { GameCard } from "@/components/game/game-card";
 import { GameHero } from "@/components/game/game-hero";
+import { MyGameControls, MyGameControlsFallback } from "@/components/game/my-game-controls";
 import { UserReviewItem } from "@/components/game/user-review-item";
 import { MyReview } from "@/components/reviews/my-review";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -40,7 +41,16 @@ async function GameContent({ params }: Pick<PageProps<"/[lang]/jogos/[slug]">, "
 
   return (
     <>
-      <GameHero game={game} lang={lang} dict={dict} />
+      <GameHero
+        game={game}
+        lang={lang}
+        dict={dict}
+        controls={
+          <Suspense fallback={<MyGameControlsFallback gameId={game.id} gameSlug={game.slug} lang={lang} dict={dict} />}>
+            <MyGameControls gameId={game.id} gameSlug={game.slug} lang={lang} dict={dict} />
+          </Suspense>
+        }
+      />
 
       <section className="pt-10">
         <SectionHeader title={dict.game.criticReviews} href={`${base}/criticas`} linkLabel={dict.game.seeAll} />

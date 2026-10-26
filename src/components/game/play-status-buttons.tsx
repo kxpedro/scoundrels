@@ -1,21 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-
-type Status = "playing" | "finished" | "wishlist";
+import { setPlayStatus } from "@/lib/social/actions";
+import { playStatuses, type PlayStatus } from "@/lib/social/constants";
 
 /**
- * Status do jogo para o usuário logado.
- * TODO(entrega 5 — social): persistir via Server Action em game_statuses.
+ * Status do jogo para o visitante (Jogando / Zerei / Quero jogar / Abandonei).
+ * Sem login, qualquer clique leva para a entrada. Otimista: reverte se o servidor recusar.
  */
-export function PlayStatusButtons({ labels }: { labels: Record<Status, string> }) {
-  const [selected, setSelected] = useState<Status | null>(null);
+export function PlayStatusButtons({
+  gameId,
+  initial,
+  signedIn,
+  loginHref,
+  labels,
+}: {
+  gameId: string;
+  initial: PlayStatus | null;
+  signedIn: boolean;
+  loginHref: string;
+  labels: Record<PlayStatus, string>;
+}) {
+  const router = useRouter();
+  const [selected, setSelected] = useState<PlayStatus | null>(initial);
+  const [, startTransition] = useTransition();
+
+  function choose(s: PlayStatus) {
+    if (!signedIn) {
+      router.push(loginHref);
+      return;
+    }
+    const previous = selected;
+    const next = selected === s ? null : s;
+    setSelected(next);
+    startTransition(async () => {
+      const res = await setPlayStatus(gameId, next);
+      if (!res.ok) setSelected(previous);
+    });
+  }
 
   return (
     <>
-      {(Object.keys(labels) as Status[]).map((s) => (
-        <Button key={s} aria-pressed={selected === s} onClick={() => setSelected(selected === s ? null : s)}>
+      {playStatuses.map((s) => (
+        <Button key={s} aria-pressed={selected === s} onClick={() => choose(s)}>
           {labels[s]}
         </Button>
       ))}

@@ -22,6 +22,13 @@
       "when": 1793047613667,
       "tag": "0002_material_turbo",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793049961226,
+      "tag": "0003_mighty_excalibur",
+      "breakpoints": true
     }
   ]
 }

@@ -6,6 +6,8 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { RelativeTime } from "@/components/ui/relative-time";
 import { ReportButton } from "@/components/reviews/report-button";
 import { SpoilerText } from "@/components/reviews/spoiler-text";
+import { CommentsThread } from "@/components/social/comments-thread";
+import { LikeButton } from "@/components/social/like-button";
 
 type PlayStatus = "playing" | "finished" | "wishlist" | "dropped";
 
@@ -56,12 +58,7 @@ export function UserReviewItem({ review, lang, dict }: { review: Review; lang: L
             <p className="mt-1">{review.body}</p>
           ))}
         <div className="mt-1.5 flex flex-wrap items-start gap-4 text-[13px] text-muted">
-          <span className="inline-flex items-center gap-1">
-            <HeartIcon /> {review.likeCount}
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <CommentIcon /> {review.commentCount}
-          </span>
+          <LikeButton kind="user" id={review.id} count={review.likeCount} loginHref={path(lang, "/entrar")} labels={dict.social} />
           <ReportButton
             reviewId={review.id}
             author={handle}
@@ -69,24 +66,16 @@ export function UserReviewItem({ review, lang, dict }: { review: Review; lang: L
             labels={dict.report}
             errors={dict.userReview.errors}
           />
+          <CommentsThread
+            kind="user"
+            reviewId={review.id}
+            count={review.commentCount}
+            lang={lang}
+            labels={{ social: dict.social, report: dict.report, time: dict.time, roles: dict.roles }}
+          />
         </div>
       </div>
     </article>
   );
 }
 
-function HeartIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-      <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" />
-    </svg>
-  );
-}
-
-function CommentIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-      <path d="M4 5h16v11H9l-5 4Z" />
-    </svg>
-  );
-}

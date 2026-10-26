@@ -242,6 +242,52 @@ async function main() {
     await recomputeGameScores(db, game.id);
   }
 
+  console.log("Social…");
+  const gameIds = new Map(
+    (await db.select({ id: s.games.id, slug: s.games.slug }).from(s.games)).map((g) => [g.slug, g.id]),
+  );
+  const [list] = await db
+    .insert(s.lists)
+    .values({
+      userId: userId.get("vex_hollow")!,
+      slug: "top-soulslikes",
+      title: "Top soulslikes que não são da FromSoft",
+      description: "Pra quem já zerou Elden Ring e quer mais sofrimento.",
+      likeCount: 2,
+    })
+    .returning({ id: s.lists.id });
+  await db.insert(s.listItems).values(
+    [
+      ["rust-saint", "O level design vertical mais criativo do gênero."],
+      ["echoes-of-ashfall", "Postura é tudo."],
+      ["grimvault", null],
+    ].map(([slug, note], i) => ({ listId: list.id, gameId: gameIds.get(slug!)!, position: i + 1, note })),
+  );
+  await db.insert(s.listLikes).values(["n0va", "kira.exe"].map((h) => ({ userId: userId.get(h)!, listId: list.id })));
+
+  // Rede: todos seguem a redação; alguns jogadores se seguem.
+  const followPairs: Array<[string, string]> = [
+    ...players.flatMap((p) => critics.map((c) => [p.handle, c.handle] as [string, string])),
+    ["n0va", "vex_hollow"],
+    ["kira.exe", "vex_hollow"],
+    ["vex_hollow", "kira.exe"],
+  ];
+  await db.insert(s.follows).values(followPairs.map(([a, b]) => ({ followerId: userId.get(a)!, followingId: userId.get(b)! })));
+
+  // Conversa na review mais curtida de Echoes of Ashfall
+  const [top] = await db
+    .select({ id: s.userReviews.id })
+    .from(s.userReviews)
+    .where(inArray(s.userReviews.userId, [userId.get("vex_hollow")!]))
+    .limit(1);
+  if (top) {
+    await db.insert(s.comments).values([
+      { reviewKind: "user" as const, reviewId: top.id, userId: userId.get("n0va")!, body: "Concordo, mas achei o segundo ato arrastado." },
+      { reviewKind: "user" as const, reviewId: top.id, userId: userId.get("rafael-mendes")!, body: "A luta contra o rei de cinzas é absurda mesmo." },
+    ]);
+    await db.update(s.userReviews).set({ commentCount: 2 }).where(inArray(s.userReviews.id, [top.id]));
+  }
+
   console.log(`Pronto: ${gameSeed.length} jogos, ${critics.length} críticos, ${players.length} jogadores.`);
 }
 

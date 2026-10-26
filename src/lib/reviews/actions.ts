@@ -23,7 +23,8 @@ import { getSession } from "@/lib/session";
 
 type Result<T = object> = ({ ok: true } & T) | { ok: false; error: "auth" | "invalid" | "rate_limited" | "not_found" | "own" };
 
-async function invalidateGame(gameId: string) {
+async function invalidateGame(gameId: string, userId?: string) {
+  if (userId) updateTag(tags.user(userId));
   await recomputeGameScores(db, gameId);
   const [game] = await db.select({ slug: games.slug }).from(games).where(eq(games.id, gameId)).limit(1);
   if (game) updateTag(tags.game(game.slug));
@@ -101,7 +102,7 @@ export async function saveUserReview(input: UserReviewInput): Promise<Result<{ g
       .onConflictDoUpdate({ target: [gameStatuses.userId, gameStatuses.gameId], set: { status } });
   }
 
-  await invalidateGame(gameId);
+  await invalidateGame(gameId, userId);
   return { ok: true, gameSlug: game.slug };
 }
 
@@ -117,7 +118,7 @@ export async function deleteUserReview(gameId: string): Promise<Result> {
     .returning({ id: userReviews.id });
   if (!deleted.length) return { ok: false, error: "not_found" };
 
-  await invalidateGame(id.data);
+  await invalidateGame(id.data, session.user.id);
   refresh();
   return { ok: true };
 }
@@ -151,7 +152,7 @@ export async function reportUserReview(reviewId: string, reason: string): Promis
   const hidden = open >= AUTO_HIDE_REPORTS;
   if (hidden) {
     await db.update(userReviews).set({ visibility: "hidden" }).where(eq(userReviews.id, parsed.data.reviewId));
-    await invalidateGame(review.gameId);
+    await invalidateGame(review.gameId, review.userId);
   }
   return { ok: true, hidden };
 }

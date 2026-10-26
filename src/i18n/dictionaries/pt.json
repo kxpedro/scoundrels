@@ -12,7 +12,9 @@
     "signIn": "Entrar",
     "signOut": "Sair",
     "newsroom": "Redação",
-    "profile": "Meu perfil"
+    "profile": "Meu perfil",
+    "feed": "Feed",
+    "account": "Minha conta"
   },
   "home": {
     "kicker": "Crítica + público",
@@ -315,5 +317,111 @@
       "spam": "Spam ou propaganda",
       "off_topic": "Não é sobre o jogo"
     }
+  },
+  "social": {
+    "like": "Curtir",
+    "loginToLike": "Entre para curtir",
+    "comments": "{n} comentários",
+    "commentsOne": "{n} comentário",
+    "commentsNone": "Comentar",
+    "hide": "Ocultar comentários",
+    "placeholder": "Escreva um comentário…",
+    "send": "Enviar",
+    "remove": "Apagar",
+    "loginToComment": "Entre para comentar",
+    "empty": "Ninguém comentou ainda.",
+    "errors": {
+      "auth": "Entre para continuar.",
+      "invalid": "Confira o texto.",
+      "not_found": "Isso não está mais disponível.",
+      "own": "Você não pode fazer isso no seu próprio conteúdo.",
+      "rate_limited": "Muitas ações em pouco tempo. Tente daqui a pouco.",
+      "taken": "Esse @ já está em uso.",
+      "full": "A lista atingiu o limite de jogos."
+    }
+  },
+  "profile": {
+    "follow": "+ Seguir",
+    "following": "✓ Seguindo",
+    "followers": "Seguidores",
+    "followingCount": "Seguindo",
+    "edit": "Editar perfil",
+    "reviews": "Reviews",
+    "lists": "Listas",
+    "memberSince": "Membro desde {date}",
+    "emptyReviews": "Nenhuma review ainda.",
+    "emptyGames": "Nada por aqui ainda.",
+    "emptyLists": "Nenhuma lista pública.",
+    "tabs": {
+      "reviews": "Reviews",
+      "zerados": "Zerados",
+      "jogando": "Jogando",
+      "quero-jogar": "Quero jogar",
+      "abandonados": "Abandonados",
+      "listas": "Listas"
+    }
+  },
+  "lists": {
+    "title": "Listas",
+    "lead": "Rankings e coleções montados pela comunidade.",
+    "by": "por @{user}",
+    "games": "{n} jogos",
+    "gamesOne": "{n} jogo",
+    "newList": "+ Nova lista",
+    "listTitle": "Título",
+    "titlePh": "Top 10 RPGs da década",
+    "description": "Descrição",
+    "descriptionPh": "Do que se trata a lista (opcional)",
+    "public": "Pública",
+    "private": "Privada",
+    "create": "Criar lista",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "edit": "Editar lista",
+    "done": "Concluir edição",
+    "remove": "Remover",
+    "delete": "Apagar lista",
+    "deleteConfirm": "Apagar esta lista? Não dá para desfazer.",
+    "addToList": "+ Adicionar à lista",
+    "newWithGame": "Nova lista com este jogo",
+    "added": "Na lista",
+    "full": "Cheia",
+    "notePh": "Comentário sobre este jogo (opcional)",
+    "moveUp": "Subir",
+    "moveDown": "Descer",
+    "empty": "Lista vazia. Adicione jogos pela página de cada jogo.",
+    "emptyAll": "Nenhuma lista pública ainda.",
+    "privateBadge": "Privada",
+    "updated": "atualizada {when}",
+    "loginToCreate": "Entre para criar listas",
+    "editDetails": "Editar detalhes"
+  },
+  "feed": {
+    "title": "Seu feed",
+    "tabs": {
+      "todos": "Tudo",
+      "criticos": "Críticos",
+      "jogadores": "Jogadores"
+    },
+    "critic": "publicou uma crítica de",
+    "review": "avaliou",
+    "finished": "zerou",
+    "playing": "começou a jogar",
+    "list": "criou a lista",
+    "empty": "Seu feed está vazio. Siga críticos e jogadores para ver o que eles andam jogando.",
+    "suggestions": "Sugestões para seguir",
+    "reviewsCount": "{n} reviews"
+  },
+  "account": {
+    "title": "Minha conta",
+    "lead": "Como você aparece no Scoundrels.",
+    "name": "Nome",
+    "handle": "@ público",
+    "handleHint": "3 a 30 caracteres: letras minúsculas, números, ponto, hífen ou sublinhado.",
+    "bio": "Bio",
+    "bioPh": "Que tipo de jogo você curte?",
+    "save": "Salvar",
+    "saved": "Perfil atualizado.",
+    "viewProfile": "Ver meu perfil"
   }
 }

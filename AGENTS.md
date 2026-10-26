@@ -21,3 +21,5 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Redação: toda Server Action em `src/lib/newsroom/actions.ts` revalida sessão e papel (`actor()`) e usa as regras de `src/lib/newsroom/permissions.ts` — nunca confie na UI.
 - Corpo de review é JSON do Tiptap: passa por `sanitizeDoc()` ao salvar e ao renderizar; nós novos entram em `extensions.ts` **e** em `ALLOWED_NODES`. Ao enviar do cliente, serialize com `JSON.parse(JSON.stringify(...))` (attrs do ProseMirror não são objetos simples).
 - `getSession()` chama `connection()` antes de ler a sessão (o Better Auth usa `new Date()`).
+- Subconsulta correlacionada em `sql`: em selects sem join o Drizzle escreve a coluna sem tabela (`"id"`), que dentro da subconsulta resolve para a tabela interna. Use referência qualificada (`sql.raw('"user"."id"')`), como em `src/lib/queries/social.ts`.
+- Estado "do visitante" em páginas cacheadas (curtiu? segue?) vem do cliente: `requestLiked` agrupa os ids da página numa única chamada (`src/components/social/viewer-likes.ts`).

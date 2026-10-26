@@ -12,7 +12,9 @@
     "signIn": "Sign in",
     "signOut": "Sign out",
     "newsroom": "Newsroom",
-    "profile": "My profile"
+    "profile": "My profile",
+    "feed": "Feed",
+    "account": "My account"
   },
   "home": {
     "kicker": "Critics + players",
@@ -315,5 +317,111 @@
       "spam": "Spam or advertising",
       "off_topic": "Not about the game"
     }
+  },
+  "social": {
+    "like": "Like",
+    "loginToLike": "Sign in to like",
+    "comments": "{n} comments",
+    "commentsOne": "{n} comment",
+    "commentsNone": "Comment",
+    "hide": "Hide comments",
+    "placeholder": "Write a comment…",
+    "send": "Send",
+    "remove": "Delete",
+    "loginToComment": "Sign in to comment",
+    "empty": "No comments yet.",
+    "errors": {
+      "auth": "Sign in to continue.",
+      "invalid": "Check the text.",
+      "not_found": "This is no longer available.",
+      "own": "You can't do that on your own content.",
+      "rate_limited": "Too many actions in a short time. Try again soon.",
+      "taken": "That handle is already taken.",
+      "full": "The list reached its game limit."
+    }
+  },
+  "profile": {
+    "follow": "+ Follow",
+    "following": "✓ Following",
+    "followers": "Followers",
+    "followingCount": "Following",
+    "edit": "Edit profile",
+    "reviews": "Reviews",
+    "lists": "Lists",
+    "memberSince": "Member since {date}",
+    "emptyReviews": "No reviews yet.",
+    "emptyGames": "Nothing here yet.",
+    "emptyLists": "No public lists.",
+    "tabs": {
+      "reviews": "Reviews",
+      "zerados": "Finished",
+      "jogando": "Playing",
+      "quero-jogar": "Want to play",
+      "abandonados": "Dropped",
+      "listas": "Lists"
+    }
+  },
+  "lists": {
+    "title": "Lists",
+    "lead": "Rankings and collections made by the community.",
+    "by": "by @{user}",
+    "games": "{n} games",
+    "gamesOne": "{n} game",
+    "newList": "+ New list",
+    "listTitle": "Title",
+    "titlePh": "Top 10 RPGs of the decade",
+    "description": "Description",
+    "descriptionPh": "What the list is about (optional)",
+    "public": "Public",
+    "private": "Private",
+    "create": "Create list",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit list",
+    "done": "Done editing",
+    "remove": "Remove",
+    "delete": "Delete list",
+    "deleteConfirm": "Delete this list? This can't be undone.",
+    "addToList": "+ Add to list",
+    "newWithGame": "New list with this game",
+    "added": "In list",
+    "full": "Full",
+    "notePh": "A note about this game (optional)",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "empty": "Empty list. Add games from each game's page.",
+    "emptyAll": "No public lists yet.",
+    "privateBadge": "Private",
+    "updated": "updated {when}",
+    "loginToCreate": "Sign in to create lists",
+    "editDetails": "Edit details"
+  },
+  "feed": {
+    "title": "Your feed",
+    "tabs": {
+      "todos": "All",
+      "criticos": "Critics",
+      "jogadores": "Players"
+    },
+    "critic": "published a review of",
+    "review": "rated",
+    "finished": "finished",
+    "playing": "started playing",
+    "list": "created the list",
+    "empty": "Your feed is empty. Follow critics and players to see what they're playing.",
+    "suggestions": "Suggested follows",
+    "reviewsCount": "{n} reviews"
+  },
+  "account": {
+    "title": "My account",
+    "lead": "How you show up on Scoundrels.",
+    "name": "Name",
+    "handle": "Public handle",
+    "handleHint": "3 to 30 characters: lowercase letters, numbers, dot, hyphen or underscore.",
+    "bio": "Bio",
+    "bioPh": "What kind of games are you into?",
+    "save": "Save",
+    "saved": "Profile updated.",
+    "viewProfile": "View my profile"
   }
 }

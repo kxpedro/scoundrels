@@ -7,9 +7,19 @@ import { t, type Dictionary } from "@/i18n/dictionaries";
 import type { GameDetail } from "@/lib/queries/games";
 import { formatCount, formatReleaseDate } from "@/lib/format";
 import { Cover } from "./cover";
-import { PlayStatusButtons } from "./play-status-buttons";
 
-export function GameHero({ game, lang, dict }: { game: GameDetail; lang: Locale; dict: Dictionary }) {
+export function GameHero({
+  game,
+  lang,
+  dict,
+  controls,
+}: {
+  game: GameDetail;
+  lang: Locale;
+  dict: Dictionary;
+  /** Botões pessoais (status, listas) — vêm de fora porque dependem da sessão. */
+  controls: React.ReactNode;
+}) {
   const base = path(lang, `/jogos/${game.slug}`);
   const developer = game.studios.find((s) => s.role === "developer") ?? game.studios[0];
 
@@ -77,13 +87,7 @@ export function GameHero({ game, lang, dict }: { game: GameDetail; lang: Locale;
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <PlayStatusButtons
-            labels={{
-              playing: dict.game.statusPlaying,
-              finished: dict.game.statusFinished,
-              wishlist: dict.game.statusWishlist,
-            }}
-          />
+          {controls}
           <ButtonLink variant="primary" href={`${base}/avaliar`}>
             {dict.game.writeReview}
           </ButtonLink>

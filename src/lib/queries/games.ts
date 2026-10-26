@@ -25,6 +25,12 @@ export const tags = {
   review: (slug: string) => `review:${slug}`,
   /** Listagens de jogos (home, catálogo). */
   games: "games",
+  /** Perfil público, contadores, status e listas de um usuário (por id: o handle pode mudar). */
+  user: (userId: string) => `user:${userId}`,
+  /** Uma lista e seus itens. */
+  list: (listId: string) => `list:${listId}`,
+  /** Listas populares (/listas). */
+  lists: "lists",
 };
 
 export async function listRecentGames(limit = 12) {
@@ -177,6 +183,8 @@ export async function getPublishedReview(slug: string) {
         pros: criticReviews.pros,
         cons: criticReviews.cons,
         locale: criticReviews.locale,
+        likeCount: criticReviews.likeCount,
+        commentCount: criticReviews.commentCount,
         publishedAt: criticReviews.publishedAt,
         updatedAt: criticReviews.updatedAt,
       },

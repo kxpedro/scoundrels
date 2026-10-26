@@ -6,18 +6,21 @@ import { Button } from "@/components/ui/button";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { t } from "@/i18n/interpolate";
 import { reportUserReview } from "@/lib/reviews/actions";
+import { reportComment } from "@/lib/social/actions";
 import { reportReasons, type ReportReason } from "@/lib/reviews/constants";
 
 type Props = {
+  /** Review do público (padrão) ou comentário. */
+  target?: "review" | "comment";
   reviewId: string;
   author: string;
   loginHref: string;
   labels: Dictionary["report"];
-  errors: Dictionary["userReview"]["errors"];
+  errors: Partial<Record<string, string>>;
 };
 
 /** "⚑ Denunciar" que abre um painel no lugar (fluxo aprovado no mockup 3). */
-export function ReportButton({ reviewId, author, loginHref, labels, errors }: Props) {
+export function ReportButton({ target = "review", reviewId, author, loginHref, labels, errors }: Props) {
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState<ReportReason>("spoiler");
   const [state, setState] = useState<"idle" | "sent" | "auth" | { error: string }>("idle");
@@ -41,10 +44,10 @@ export function ReportButton({ reviewId, author, loginHref, labels, errors }: Pr
 
   function send() {
     startTransition(async () => {
-      const res = await reportUserReview(reviewId, reason);
+      const res = target === "comment" ? await reportComment(reviewId, reason) : await reportUserReview(reviewId, reason);
       if (res.ok) setState("sent");
       else if (res.error === "auth") setState("auth");
-      else setState({ error: errors[res.error] });
+      else setState({ error: errors[res.error] ?? "" });
     });
   }
 
