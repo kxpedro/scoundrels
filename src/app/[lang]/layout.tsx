@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Archivo_Black, Chakra_Petch, Inter, Share_Tech_Mono } from "next/font/google";
-import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
 import { locales } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import "../globals.css";
@@ -23,6 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+/** Só o documento. O site público ganha cabeçalho/rodapé em (site); a redação tem a própria moldura. */
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const lang = await getLocale();
 
@@ -31,11 +30,7 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
       lang={lang === "pt" ? "pt-BR" : "en"}
       className={`${archivoBlack.variable} ${chakraPetch.variable} ${shareTechMono.variable} ${inter.variable}`}
     >
-      <body className="flex min-h-dvh flex-col">
-        <SiteHeader />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 sm:px-6">{children}</main>
-        <SiteFooter />
-      </body>
+      <body className="flex min-h-dvh flex-col">{children}</body>
     </html>
   );
 }

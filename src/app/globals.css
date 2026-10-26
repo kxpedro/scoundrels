@@ -105,6 +105,45 @@
   }
 }
 
+/* Corpo da review (editor da redação e página pública usam a mesma tipografia). */
+@layer components {
+  .review-prose {
+    @apply text-[17px] leading-relaxed text-body;
+    & > * + * {
+      @apply mt-4;
+    }
+    & h2 {
+      @apply font-display mt-8 text-xl text-fg;
+    }
+    & h3 {
+      @apply font-score mt-6 text-lg font-bold text-fg;
+    }
+    & a {
+      @apply text-cyan underline underline-offset-3 hover:text-brand;
+    }
+    & strong {
+      @apply font-semibold text-fg;
+    }
+    & blockquote {
+      @apply border-l-3 border-magenta pl-4 text-lg text-fg italic;
+    }
+    & ul {
+      @apply list-disc pl-6 marker:text-brand;
+    }
+    & ol {
+      @apply list-decimal pl-6 marker:font-score marker:text-brand;
+    }
+    & hr {
+      @apply border-line-strong;
+    }
+    /* Placeholder do Tiptap no parágrafo vazio */
+    & p.is-editor-empty:first-child::before {
+      content: attr(data-placeholder);
+      @apply pointer-events-none float-left h-0 text-line-strong;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

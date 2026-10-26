@@ -196,6 +196,23 @@ async function main() {
         title,
         excerpt,
         score,
+        body: {
+          type: "doc",
+          content: [
+            { type: "paragraph", content: [{ type: "text", text: excerpt }] },
+            { type: "heading", attrs: { level: 2 }, content: [{ type: "text", text: "O que funciona" }] },
+            {
+              type: "paragraph",
+              content: [
+                { type: "text", text: `${g.title} acerta no que importa: ` },
+                { type: "text", marks: [{ type: "bold" }], text: "ritmo, identidade e um mundo que convida à exploração." },
+              ],
+            },
+            { type: "blockquote", content: [{ type: "paragraph", content: [{ type: "text", text: title }] }] },
+          ],
+        },
+        pros: score >= 7 ? ["Direção de arte", "Combate"] : ["Ambientação"],
+        cons: score >= 7 ? ["Ritmo do terceiro ato"] : ["Bugs", "Performance"],
         status: "published" as const,
         editorId: userId.get("rafael-mendes")!,
         submittedAt: published,

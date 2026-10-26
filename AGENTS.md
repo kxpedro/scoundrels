@@ -18,3 +18,6 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - `next/root-params` só em Server Components: utilitários usados no cliente não podem importar `src/i18n/dictionaries.ts` (use `src/i18n/interpolate.ts`).
 - Ao publicar/alterar reviews, chame `recomputeGameScores()` e invalide a tag `game:<slug>`.
 - Textos de UI em `src/i18n/dictionaries/{pt,en}.json` — sempre os dois.
+- Redação: toda Server Action em `src/lib/newsroom/actions.ts` revalida sessão e papel (`actor()`) e usa as regras de `src/lib/newsroom/permissions.ts` — nunca confie na UI.
+- Corpo de review é JSON do Tiptap: passa por `sanitizeDoc()` ao salvar e ao renderizar; nós novos entram em `extensions.ts` **e** em `ALLOWED_NODES`. Ao enviar do cliente, serialize com `JSON.parse(JSON.stringify(...))` (attrs do ProseMirror não são objetos simples).
+- `getSession()` chama `connection()` antes de ler a sessão (o Better Auth usa `new Date()`).

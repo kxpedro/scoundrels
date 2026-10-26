@@ -63,7 +63,7 @@ export function GameHero({ game, lang, dict }: { game: GameDetail; lang: Locale;
             kind="critic"
             value={game.criticScore}
             label={dict.game.scoundrel}
-            caption={t(dict.game.critics, { count: game.criticCount })}
+            caption={t(game.criticCount === 1 ? dict.game.criticsOne : dict.game.critics, { count: game.criticCount })}
             href={`${base}/criticas`}
           />
           <ScoreBadge
@@ -71,7 +71,7 @@ export function GameHero({ game, lang, dict }: { game: GameDetail; lang: Locale;
             kind="user"
             value={game.userScore}
             label={dict.game.public}
-            caption={t(dict.game.ratings, { count: formatCount(game.userCount, lang) })}
+            caption={t(game.userCount === 1 ? dict.game.ratingsOne : dict.game.ratings, { count: formatCount(game.userCount, lang) })}
             href={`${base}/publico`}
           />
         </div>

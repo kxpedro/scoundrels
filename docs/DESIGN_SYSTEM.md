@@ -147,4 +147,17 @@ Metadados são portas de navegação. Mapa de rotas:
 
 ## 8. Back-office `/redacao`
 
-Mesma base de tokens. Pode usar mais mono (estética Netrunner) por ser área interna, mas mantém Inter para o editor de texto.
+Layout **"Mesa de redação"**: barra lateral fixa (itens por papel) + conteúdo. Mesma base de tokens; mais rótulos mono por ser área interna, Inter no editor.
+
+### Status editorial
+| Status | Cor | Classe |
+|---|---|---|
+| Rascunho | neutro | `bg-raised text-label` |
+| Em revisão | amber | `bg-amber/15 text-amber` |
+| Ajustes pedidos | magenta | `bg-magenta/15 text-magenta` |
+| Publicada | cyan | `bg-cyan/15 text-cyan` |
+
+Fonte única: `statusStyle` em `src/components/newsroom/status-tag.tsx`.
+
+### Corpo da review
+Classe `.review-prose` (globals.css) — usada no editor e na página pública, para o crítico ver exatamente o que será publicado.

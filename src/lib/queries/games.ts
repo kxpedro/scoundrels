@@ -17,7 +17,13 @@ import {
 } from "@/db/schema";
 
 export const tags = {
+  /** Dados do jogo (página, agregados). */
   game: (slug: string) => `game:${slug}`,
+  /** Reviews e relacionados de um jogo, por id. */
+  gameReviews: (gameId: string) => `game-reviews:${gameId}`,
+  /** Página pública de uma crítica. */
+  review: (slug: string) => `review:${slug}`,
+  /** Listagens de jogos (home, catálogo). */
   games: "games",
 };
 
@@ -76,6 +82,7 @@ export async function getGameBySlug(slug: string) {
 export async function getCriticReviews(gameId: string, limit = 4) {
   "use cache";
   cacheLife("hours");
+  cacheTag(tags.gameReviews(gameId));
 
   return db
     .select({
@@ -96,6 +103,7 @@ export async function getCriticReviews(gameId: string, limit = 4) {
 export async function getUserReviews(gameId: string, limit = 4) {
   "use cache";
   cacheLife("minutes");
+  cacheTag(tags.gameReviews(gameId));
 
   return db
     .select({
@@ -137,4 +145,47 @@ export async function getSimilarGames(gameId: string, limit = 4) {
     .groupBy(games.id)
     .orderBy(desc(sql`count(*)`), desc(games.criticScore))
     .limit(limit);
+}
+
+/** Crítica publicada para a página pública. */
+export async function getPublishedReview(slug: string) {
+  "use cache";
+  cacheLife("hours");
+  cacheTag(tags.review(slug));
+
+  const [row] = await db
+    .select({
+      review: {
+        id: criticReviews.id,
+        title: criticReviews.title,
+        excerpt: criticReviews.excerpt,
+        body: criticReviews.body,
+        score: criticReviews.score,
+        pros: criticReviews.pros,
+        cons: criticReviews.cons,
+        locale: criticReviews.locale,
+        publishedAt: criticReviews.publishedAt,
+        updatedAt: criticReviews.updatedAt,
+      },
+      game: {
+        id: games.id,
+        slug: games.slug,
+        title: games.title,
+        coverUrl: games.coverUrl,
+        userScore: games.userScore,
+        userCount: games.userCount,
+        criticScore: games.criticScore,
+        criticCount: games.criticCount,
+      },
+      author: { name: user.name, handle: user.handle, role: user.role, title: user.title },
+      platform: { name: platforms.name, slug: platforms.slug, shortName: platforms.shortName },
+    })
+    .from(criticReviews)
+    .innerJoin(games, eq(games.id, criticReviews.gameId))
+    .innerJoin(user, eq(user.id, criticReviews.authorId))
+    .leftJoin(platforms, eq(platforms.id, criticReviews.platformTestedId))
+    .where(and(eq(criticReviews.slug, slug), eq(criticReviews.status, "published")))
+    .limit(1);
+
+  return row ?? null;
 }

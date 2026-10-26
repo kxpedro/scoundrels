@@ -13,7 +13,7 @@ Site de reviews de jogos com **crítica oficial** (jornalistas Scoundrel) e **re
 | Auth | Better Auth — Google, Discord, magic link (Resend) |
 | Papéis | `user`, `critic`, `editor`, `admin` |
 | Back-office | Área `/redacao` no mesmo app, protegida por papel |
-| Fluxo de crítica | `draft → in_review → published` (editor publica) |
+| Fluxo de crítica | `draft → in_review → published`, com volta `in_review → changes_requested → in_review` (editor publica ou pede ajustes) |
 | Notas | 0–10 com meio ponto, crítica e público |
 | Catálogo | Importação do IGDB (admin) |
 | Moderação | User review publica na hora; denúncias vão para fila na `/redacao` |
@@ -22,15 +22,15 @@ Site de reviews de jogos com **crítica oficial** (jornalistas Scoundrel) e **re
 
 ## Entregas
 
-1. **Fundação** — scaffold, design system, schema, auth com papéis, i18n, página de jogo de exemplo. ← *em andamento*
-2. **Redação** — importação IGDB, editor de review (Tiptap), fluxo de aprovação, gestão de papéis.
+1. **Fundação** — scaffold, design system, schema, auth com papéis, i18n, página de jogo de exemplo. ✅
+2. **Redação** — importação IGDB, editor de review (Tiptap), fluxo de aprovação, gestão de papéis, denúncias, página pública da review. ✅
 3. **Site público** — home, página do jogo com dados reais, página da review, perfil do crítico, busca, páginas de gênero/plataforma/estúdio.
 4. **User reviews** — nota + texto, User Score, denúncias e moderação.
 5. **Social** — curtidas, comentários, status de jogo, listas, seguir + feed.
 
 ## Pendências do usuário
 
-- Credenciais IGDB (Client ID/Secret em dev.twitch.tv)
+- ~~Credenciais IGDB~~ (configuradas no `.env.local`; falta adicionar na Vercel)
 - OAuth Google e Discord
 - Conta Resend (magic link)
 - Ativar Neon na Vercel e copiar `DATABASE_URL`

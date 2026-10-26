@@ -1,23 +1,20 @@
 import "server-only";
 import { headers } from "next/headers";
 import { forbidden, unauthorized } from "next/navigation";
+import { connection } from "next/server";
 import { cache } from "react";
 import { auth } from "@/lib/auth";
+import { hasRole, type Role } from "@/lib/session-roles";
 
-export const roles = ["user", "critic", "editor", "admin"] as const;
-export type Role = (typeof roles)[number];
-
-/** Hierarquia: cada papel herda as permissões dos anteriores. */
-export function hasRole(actual: string | null | undefined, required: Role): boolean {
-  const a = roles.indexOf((actual ?? "user") as Role);
-  return a >= roles.indexOf(required);
-}
+export { hasRole, roles, type Role } from "@/lib/session-roles";
 
 /**
  * Sessão da requisição atual (lê cookies → precisa estar sob <Suspense>).
  * Deduplicada por requisição com React.cache.
  */
 export const getSession = cache(async () => {
+  // O Better Auth compara a expiração com new Date(); connection() deixa a leitura só em tempo de requisição.
+  await connection();
   return auth.api.getSession({ headers: await headers() });
 });
 

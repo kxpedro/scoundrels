@@ -26,7 +26,9 @@
     "scoundrel": "Scoundrel",
     "public": "Players",
     "critics": "{count} critics",
+    "criticsOne": "{count} critic",
     "ratings": "{count} ratings",
+    "ratingsOne": "{count} rating",
     "noScore": "No score",
     "statusPlaying": "Playing",
     "statusFinished": "Finished",
@@ -46,7 +48,8 @@
   "roles": {
     "critic": "Critic",
     "editor": "Editor",
-    "admin": "Editor-in-chief"
+    "admin": "Editor-in-chief",
+    "user": "Reader"
   },
   "playStatus": {
     "playing": "Playing",
@@ -68,7 +71,121 @@
   },
   "newsroom": {
     "title": "Newsroom",
-    "lead": "Internal area for the Scoundrel team. Drafts, review and publishing arrive in the next delivery."
+    "nav": {
+      "dashboard": "Dashboard",
+      "mine": "My reviews",
+      "queue": "Review queue",
+      "games": "Games · IGDB",
+      "reports": "Reports",
+      "team": "Team",
+      "backToSite": "Back to site"
+    },
+    "newReview": "+ New review",
+    "stats": {
+      "draft": "Drafts",
+      "in_review": "In review",
+      "changes_requested": "Changes",
+      "published_month": "Published · month"
+    },
+    "status": {
+      "draft": "Draft",
+      "in_review": "In review",
+      "changes_requested": "Changes",
+      "published": "Published",
+      "archived": "Archived"
+    },
+    "table": {
+      "review": "Review",
+      "status": "Status",
+      "author": "Author",
+      "score": "Score",
+      "updated": "Updated",
+      "untitled": "Untitled",
+      "empty": "Nothing here yet."
+    },
+    "queueLead": "Reviews waiting for an editor.",
+    "mineLead": "Everything you wrote, in any status.",
+    "pick": {
+      "title": "New review",
+      "lead": "Pick the game. If it isn't in the catalog, import it from IGDB first.",
+      "search": "Search the catalog",
+      "placeholder": "Echoes of Ashfall",
+      "start": "Start review",
+      "already": "You already have a review of this game",
+      "none": "No games found."
+    },
+    "editor": {
+      "titlePh": "Review title",
+      "excerptPh": "Standfirst: the verdict in one sentence",
+      "bodyPh": "Write the review…",
+      "score": "Scoundrel score",
+      "scoreHint": "0 to 10, half-point steps",
+      "game": "Game",
+      "platform": "Platform tested",
+      "noPlatform": "Select",
+      "pros": "Pros",
+      "cons": "Cons",
+      "addItem": "+ add",
+      "itemPh": "New item",
+      "saving": "Saving…",
+      "saved": "Saved",
+      "saveError": "Couldn't save",
+      "words": "{n} words · {m} min read",
+      "submit": "Submit for review",
+      "publish": "Publish",
+      "update": "Update published review",
+      "requestChanges": "Request changes",
+      "notePh": "What needs to change?",
+      "sendNote": "Send back to author",
+      "cancel": "Cancel",
+      "changesBy": "Changes requested by {name}",
+      "readOnly": "In review: only editors can edit now.",
+      "view": "View on site",
+      "missing": "To submit: title, score and text.",
+      "toolbar": {
+        "bold": "Bold",
+        "italic": "Italic",
+        "h2": "Heading",
+        "h3": "Subheading",
+        "quote": "Quote",
+        "bullet": "List",
+        "ordered": "Numbered list",
+        "link": "Link",
+        "linkPrompt": "Link URL (https://…)"
+      }
+    },
+    "games": {
+      "title": "Games",
+      "lead": "Site catalog. Import from IGDB to bring cover, genres, platforms and studios.",
+      "igdbSearch": "Search IGDB",
+      "igdbPlaceholder": "Game name",
+      "search": "Search",
+      "import": "Import",
+      "imported": "In catalog",
+      "notConfigured": "IGDB isn't configured. Add IGDB_CLIENT_ID and IGDB_CLIENT_SECRET to .env.local.",
+      "manual": "Manual entry",
+      "manualTitle": "Title",
+      "manualDate": "Release date",
+      "create": "Create",
+      "catalog": "In the catalog",
+      "noResults": "No results."
+    },
+    "reports": {
+      "title": "Reports",
+      "lead": "Reviews and comments reported by players.",
+      "empty": "No open reports.",
+      "hide": "Hide content",
+      "dismiss": "Dismiss",
+      "reason": "Reason"
+    },
+    "team": {
+      "title": "Team",
+      "lead": "Choose who writes and who approves. Critic writes, editor approves and publishes, admin manages everything.",
+      "email": "User email",
+      "setRole": "Apply",
+      "notFound": "No user with that email.",
+      "self": "You can't change your own role."
+    }
   },
   "errors": {
     "notFound": "Page not found",
@@ -88,5 +205,12 @@
     "days": "{n}d",
     "weeks": "{n}w",
     "months": "{n}mo"
+  },
+  "review": {
+    "by": "By",
+    "tested": "Tested on",
+    "pros": "Pros",
+    "cons": "Cons",
+    "published": "Published"
   }
 }

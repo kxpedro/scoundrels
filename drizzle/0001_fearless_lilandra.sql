@@ -1,0 +1,1 @@
+ALTER TYPE "public"."critic_review_status" ADD VALUE 'changes_requested' BEFORE 'published';

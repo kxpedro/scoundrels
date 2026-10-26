@@ -20,11 +20,21 @@ npm run dev                     # http://localhost:3000 → /pt
 
 Sem `RESEND_API_KEY`, o link de login por e-mail é impresso no terminal do `npm run dev`.
 
-Para acessar a `/redacao`, promova sua conta:
+Para acessar a `/redacao`, promova sua conta (depois disso, papéis são geridos em **Redação → Equipe**):
 
 ```bash
 docker compose exec db psql -U scoundrels -c "update \"user\" set role='admin' where email='voce@email.com';"
 ```
+
+## Redação
+
+| Papel | Pode |
+|---|---|
+| `critic` | Escrever reviews e enviar para revisão |
+| `editor` | Tudo do crítico + publicar, pedir ajustes, importar jogos do IGDB, moderar denúncias |
+| `admin` | Tudo do editor + gerenciar a equipe |
+
+Importação do IGDB exige `IGDB_CLIENT_ID` e `IGDB_CLIENT_SECRET` (ver `.env.example`). Sem elas, a tela de jogos oferece cadastro manual.
 
 ## Scripts
 

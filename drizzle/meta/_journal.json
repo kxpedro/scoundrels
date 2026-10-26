@@ -8,6 +8,13 @@
       "when": 1793040909891,
       "tag": "0000_perfect_kat_farrell",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793042412636,
+      "tag": "0001_fearless_lilandra",
+      "breakpoints": true
     }
   ]
 }

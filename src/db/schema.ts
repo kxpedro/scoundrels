@@ -30,7 +30,14 @@ const timestamps = {
 
 export const userRole = pgEnum("user_role", ["user", "critic", "editor", "admin"]);
 export const locale = pgEnum("locale", ["pt", "en"]);
-export const criticReviewStatus = pgEnum("critic_review_status", ["draft", "in_review", "published", "archived"]);
+export const criticReviewStatus = pgEnum("critic_review_status", [
+  "draft",
+  "in_review",
+  "changes_requested",
+  "published",
+  "archived",
+]);
+export type CriticReviewStatus = (typeof criticReviewStatus.enumValues)[number];
 export const visibility = pgEnum("visibility", ["visible", "hidden"]);
 export const reviewKind = pgEnum("review_kind", ["critic", "user"]);
 export const reportTarget = pgEnum("report_target", ["user_review", "comment"]);

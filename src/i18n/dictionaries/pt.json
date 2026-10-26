@@ -26,7 +26,9 @@
     "scoundrel": "Scoundrel",
     "public": "Público",
     "critics": "{count} críticos",
+    "criticsOne": "{count} crítico",
     "ratings": "{count} notas",
+    "ratingsOne": "{count} nota",
     "noScore": "Sem nota",
     "statusPlaying": "Jogando",
     "statusFinished": "Zerado",
@@ -46,7 +48,8 @@
   "roles": {
     "critic": "Crítico",
     "editor": "Editor",
-    "admin": "Editor-chefe"
+    "admin": "Editor-chefe",
+    "user": "Leitor"
   },
   "playStatus": {
     "playing": "Jogando",
@@ -68,7 +71,121 @@
   },
   "newsroom": {
     "title": "Redação",
-    "lead": "Área interna da equipe Scoundrel. Rascunhos, revisão e publicação chegam na próxima entrega."
+    "nav": {
+      "dashboard": "Painel",
+      "mine": "Minhas reviews",
+      "queue": "Fila de revisão",
+      "games": "Jogos · IGDB",
+      "reports": "Denúncias",
+      "team": "Equipe",
+      "backToSite": "Voltar ao site"
+    },
+    "newReview": "+ Nova review",
+    "stats": {
+      "draft": "Rascunhos",
+      "in_review": "Em revisão",
+      "changes_requested": "Ajustes",
+      "published_month": "Publicadas · mês"
+    },
+    "status": {
+      "draft": "Rascunho",
+      "in_review": "Em revisão",
+      "changes_requested": "Ajustes",
+      "published": "Publicada",
+      "archived": "Arquivada"
+    },
+    "table": {
+      "review": "Review",
+      "status": "Status",
+      "author": "Autor",
+      "score": "Nota",
+      "updated": "Atualizada",
+      "untitled": "Sem título",
+      "empty": "Nada por aqui ainda."
+    },
+    "queueLead": "Reviews aguardando aprovação de um editor.",
+    "mineLead": "Tudo o que você escreveu, em qualquer status.",
+    "pick": {
+      "title": "Nova review",
+      "lead": "Escolha o jogo. Se ele não estiver no catálogo, importe do IGDB primeiro.",
+      "search": "Buscar no catálogo",
+      "placeholder": "Echoes of Ashfall",
+      "start": "Começar review",
+      "already": "Você já tem uma review deste jogo",
+      "none": "Nenhum jogo encontrado."
+    },
+    "editor": {
+      "titlePh": "Título da review",
+      "excerptPh": "Linha fina: o resumo em uma frase",
+      "bodyPh": "Escreva a review…",
+      "score": "Nota Scoundrel",
+      "scoreHint": "0 a 10, passos de 0,5",
+      "game": "Jogo",
+      "platform": "Plataforma testada",
+      "noPlatform": "Selecione",
+      "pros": "Prós",
+      "cons": "Contras",
+      "addItem": "+ adicionar",
+      "itemPh": "Novo item",
+      "saving": "Salvando…",
+      "saved": "Salvo",
+      "saveError": "Erro ao salvar",
+      "words": "{n} palavras · leitura {m} min",
+      "submit": "Enviar para revisão",
+      "publish": "Publicar",
+      "update": "Atualizar publicação",
+      "requestChanges": "Pedir ajustes",
+      "notePh": "O que precisa mudar?",
+      "sendNote": "Devolver ao autor",
+      "cancel": "Cancelar",
+      "changesBy": "Ajuste pedido por {name}",
+      "readOnly": "Em revisão: só editores podem alterar agora.",
+      "view": "Ver no site",
+      "missing": "Para enviar: título, nota e texto.",
+      "toolbar": {
+        "bold": "Negrito",
+        "italic": "Itálico",
+        "h2": "Título",
+        "h3": "Subtítulo",
+        "quote": "Citação",
+        "bullet": "Lista",
+        "ordered": "Lista numerada",
+        "link": "Link",
+        "linkPrompt": "URL do link (https://…)"
+      }
+    },
+    "games": {
+      "title": "Jogos",
+      "lead": "Catálogo do site. Importe do IGDB para trazer capa, gêneros, plataformas e estúdios.",
+      "igdbSearch": "Buscar no IGDB",
+      "igdbPlaceholder": "Nome do jogo",
+      "search": "Buscar",
+      "import": "Importar",
+      "imported": "No catálogo",
+      "notConfigured": "IGDB não configurado. Adicione IGDB_CLIENT_ID e IGDB_CLIENT_SECRET no .env.local.",
+      "manual": "Cadastro manual",
+      "manualTitle": "Título",
+      "manualDate": "Lançamento",
+      "create": "Cadastrar",
+      "catalog": "No catálogo",
+      "noResults": "Nenhum resultado."
+    },
+    "reports": {
+      "title": "Denúncias",
+      "lead": "Reviews e comentários denunciados pelo público.",
+      "empty": "Nenhuma denúncia aberta.",
+      "hide": "Ocultar conteúdo",
+      "dismiss": "Descartar",
+      "reason": "Motivo"
+    },
+    "team": {
+      "title": "Equipe",
+      "lead": "Defina quem escreve e quem aprova. Crítico escreve, editor aprova e publica, admin gerencia tudo.",
+      "email": "E-mail do usuário",
+      "setRole": "Aplicar",
+      "notFound": "Nenhum usuário com esse e-mail.",
+      "self": "Você não pode alterar o próprio papel."
+    }
   },
   "errors": {
     "notFound": "Página não encontrada",
@@ -88,5 +205,12 @@
     "days": "{n}d",
     "weeks": "{n}sem",
     "months": "{n}m"
+  },
+  "review": {
+    "by": "Por",
+    "tested": "Testado em",
+    "pros": "Prós",
+    "cons": "Contras",
+    "published": "Publicada em"
   }
 }
