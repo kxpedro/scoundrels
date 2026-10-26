@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Scoundrels
 
-## Getting Started
+Reviews de jogos com **crítica oficial** (redação Scoundrel) e **reviews do público**.
 
-First, run the development server:
+- Plano e decisões: [`docs/PLANO.md`](docs/PLANO.md)
+- Design system: [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md)
+
+## Rodando localmente
+
+Requisitos: Node 24+, Docker.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local      # e preencha BETTER_AUTH_SECRET
+npm install
+npm run db:up                   # Postgres em localhost:5433
+npm run db:push                 # aplica o schema
+npm run db:seed                 # jogos, críticos e reviews de exemplo
+npm run dev                     # http://localhost:3000 → /pt
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sem `RESEND_API_KEY`, o link de login por e-mail é impresso no terminal do `npm run dev`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para acessar a `/redacao`, promova sua conta:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+docker compose exec db psql -U scoundrels -c "update \"user\" set role='admin' where email='voce@email.com';"
+```
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Script | O que faz |
+|---|---|
+| `dev` / `build` / `start` | Next.js |
+| `lint` / `typecheck` | ESLint e TypeScript |
+| `db:up` | Sobe o Postgres local (Docker) |
+| `db:push` | Sincroniza o schema direto (dev) |
+| `db:generate` / `db:migrate` | Gera e aplica migrations (produção) |
+| `db:seed` | Recria os dados de exemplo |
+| `db:studio` | Drizzle Studio |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Estrutura
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+  app/[lang]/        rotas localizadas (pt, en) — layout raiz fica aqui
+  app/api/auth/      Better Auth
+  components/ui/     design system (ScoreBadge, Tag, Button…)
+  components/game/   blocos da página de jogo
+  db/                schema Drizzle, seed, agregação de notas
+  i18n/              dicionários e config de idiomas
+  lib/               auth, sessão/papéis, queries cacheadas, formatação
+  proxy.ts           redireciona / → /pt ou /en (Accept-Language)
+```
 
-## Deploy on Vercel
+## Deploy (Vercel)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Importe o repositório na Vercel.
+2. Em **Storage**, adicione **Neon Postgres** — `DATABASE_URL` entra sozinha.
+3. Configure `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` e, quando tiver, as chaves OAuth/Resend/IGDB.
+4. Rode `npm run db:migrate` apontando para o Neon antes do primeiro deploy.

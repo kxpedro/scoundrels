@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "title": "Scoundrels — merciless game reviews",
+    "description": "Expert criticism and the players' verdict on the games that matter."
+  },
+  "nav": {
+    "games": "Games",
+    "reviews": "Reviews",
+    "critics": "Critics",
+    "lists": "Lists",
+    "search": "Search",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "newsroom": "Newsroom",
+    "profile": "My profile"
+  },
+  "home": {
+    "kicker": "Critics + players",
+    "headline": "Merciless game reviews",
+    "lead": "The Scoundrel newsroom's score next to the verdict of people who played it.",
+    "latest": "Recently reviewed",
+    "empty": "No reviewed games yet. Run npm run db:seed to load samples."
+  },
+  "game": {
+    "studio": "Studio",
+    "scoundrel": "Scoundrel",
+    "public": "Players",
+    "critics": "{count} critics",
+    "ratings": "{count} ratings",
+    "noScore": "No score",
+    "statusPlaying": "Playing",
+    "statusFinished": "Finished",
+    "statusWishlist": "Want to play",
+    "statusDropped": "Dropped",
+    "writeReview": "Write a review",
+    "criticReviews": "Scoundrel critics",
+    "userReviews": "Players",
+    "seeAll": "See all",
+    "positive": "Positive",
+    "mixed": "Mixed",
+    "negative": "Negative",
+    "similar": "Players also liked",
+    "noCriticReviews": "The newsroom hasn't reviewed this game yet.",
+    "noUserReviews": "No ratings yet. Be the first."
+  },
+  "roles": {
+    "critic": "Critic",
+    "editor": "Editor",
+    "admin": "Editor-in-chief"
+  },
+  "playStatus": {
+    "playing": "Playing",
+    "finished": "Finished",
+    "wishlist": "Wants to play",
+    "dropped": "Dropped"
+  },
+  "auth": {
+    "title": "Sign in to Scoundrels",
+    "lead": "Use your account or get a sign-in link by email.",
+    "google": "Continue with Google",
+    "discord": "Continue with Discord",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@email.com",
+    "sendLink": "Send sign-in link",
+    "sent": "Link sent. Check your inbox.",
+    "error": "Couldn't send the link. Try again.",
+    "or": "or"
+  },
+  "newsroom": {
+    "title": "Newsroom",
+    "lead": "Internal area for the Scoundrel team. Drafts, review and publishing arrive in the next delivery."
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "notFoundLead": "That path doesn't exist on the net.",
+    "unauthorized": "Sign in to continue",
+    "forbidden": "Restricted area",
+    "forbiddenLead": "Your account doesn't have access to this area.",
+    "back": "Back to home"
+  },
+  "footer": {
+    "about": "About",
+    "policy": "Policy",
+    "contact": "Contact"
+  },
+  "time": {
+    "today": "today",
+    "days": "{n}d",
+    "weeks": "{n}w",
+    "months": "{n}mo"
+  }
+}

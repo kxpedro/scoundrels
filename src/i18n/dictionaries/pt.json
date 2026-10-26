@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "title": "Scoundrels — reviews de jogos sem piedade",
+    "description": "Crítica especializada e a opinião do público sobre os jogos que importam."
+  },
+  "nav": {
+    "games": "Jogos",
+    "reviews": "Reviews",
+    "critics": "Críticos",
+    "lists": "Listas",
+    "search": "Buscar",
+    "signIn": "Entrar",
+    "signOut": "Sair",
+    "newsroom": "Redação",
+    "profile": "Meu perfil"
+  },
+  "home": {
+    "kicker": "Crítica + público",
+    "headline": "Reviews de jogos sem piedade",
+    "lead": "A nota da redação Scoundrel ao lado da opinião de quem jogou.",
+    "latest": "Lançamentos avaliados",
+    "empty": "Nenhum jogo avaliado ainda. Rode npm run db:seed para carregar exemplos."
+  },
+  "game": {
+    "studio": "Estúdio",
+    "scoundrel": "Scoundrel",
+    "public": "Público",
+    "critics": "{count} críticos",
+    "ratings": "{count} notas",
+    "noScore": "Sem nota",
+    "statusPlaying": "Jogando",
+    "statusFinished": "Zerado",
+    "statusWishlist": "Quero jogar",
+    "statusDropped": "Abandonou",
+    "writeReview": "Escrever review",
+    "criticReviews": "Crítica Scoundrel",
+    "userReviews": "Público",
+    "seeAll": "Ver todas",
+    "positive": "Positivas",
+    "mixed": "Mistas",
+    "negative": "Negativas",
+    "similar": "Quem jogou também curtiu",
+    "noCriticReviews": "A redação ainda não publicou review deste jogo.",
+    "noUserReviews": "Ninguém avaliou ainda. Seja a primeira pessoa."
+  },
+  "roles": {
+    "critic": "Crítico",
+    "editor": "Editor",
+    "admin": "Editor-chefe"
+  },
+  "playStatus": {
+    "playing": "Jogando",
+    "finished": "Zerou",
+    "wishlist": "Quer jogar",
+    "dropped": "Abandonou"
+  },
+  "auth": {
+    "title": "Entrar no Scoundrels",
+    "lead": "Use sua conta ou receba um link de acesso por e-mail.",
+    "google": "Continuar com Google",
+    "discord": "Continuar com Discord",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "voce@email.com",
+    "sendLink": "Enviar link de acesso",
+    "sent": "Link enviado. Confira sua caixa de entrada.",
+    "error": "Não foi possível enviar o link. Tente de novo.",
+    "or": "ou"
+  },
+  "newsroom": {
+    "title": "Redação",
+    "lead": "Área interna da equipe Scoundrel. Rascunhos, revisão e publicação chegam na próxima entrega."
+  },
+  "errors": {
+    "notFound": "Página não encontrada",
+    "notFoundLead": "Esse caminho não existe na rede.",
+    "unauthorized": "Faça login para continuar",
+    "forbidden": "Acesso restrito",
+    "forbiddenLead": "Sua conta não tem permissão para esta área.",
+    "back": "Voltar ao início"
+  },
+  "footer": {
+    "about": "Sobre",
+    "policy": "Política",
+    "contact": "Contato"
+  },
+  "time": {
+    "today": "hoje",
+    "days": "{n}d",
+    "weeks": "{n}sem",
+    "months": "{n}m"
+  }
+}

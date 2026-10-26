@@ -1,26 +1,115 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Design system: docs/DESIGN_SYSTEM.md */
+@theme {
+  --color-ink: #0c0b12;
+  --color-panel: #15131f;
+  --color-raised: #221f31;
+  --color-line: #22202e;
+  --color-line-strong: #3a3650;
+
+  --color-fg: #f5f3fa;
+  --color-body: #d9d6e5;
+  --color-label: #c9c5da;
+  --color-muted: #9c98b0;
+
+  --color-brand: #fcee0a;
+  --color-on-brand: #0c0b12;
+  --color-cyan: #00e5ff;
+  --color-on-cyan: #04191d;
+  --color-magenta: #ff2bd6;
+  --color-on-magenta: #1a0416;
+  --color-amber: #ffb020;
+  --color-on-amber: #1f1400;
+  --color-red: #ff3b5c;
+  --color-on-red: #1f0008;
+
+  --font-display: var(--font-archivo-black), "Arial Black", sans-serif;
+  --font-score: var(--font-chakra-petch), sans-serif;
+  --font-mono: var(--font-share-tech-mono), ui-monospace, monospace;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  --radius-*: initial;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    color-scheme: dark;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    @apply bg-ink font-sans text-body antialiased;
+  }
+
+  ::selection {
+    @apply bg-brand text-on-brand;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility chamfer {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}
+
+@utility chamfer-sm {
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 0 100%);
+}
+
+@utility shadow-hard {
+  box-shadow: 4px 4px 0 var(--color-magenta);
+}
+
+@utility shadow-hard-lg {
+  box-shadow: 6px 6px 0 var(--color-magenta);
+}
+
+@utility glitch {
+  text-shadow:
+    2px 0 var(--color-cyan),
+    -2px 0 var(--color-magenta);
+}
+
+@utility label-mono {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+@utility lift {
+  transition:
+    transform 120ms ease-out,
+    box-shadow 120ms ease-out;
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 3px 3px 0 var(--color-magenta);
+  }
+}
+
+@utility lift-lg {
+  transition: transform 120ms ease-out;
+  &:hover {
+    transform: translate(-3px, -3px);
+  }
+}
+
+@utility link-hot {
+  transition: color 120ms ease-out;
+  &:hover {
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
 }
