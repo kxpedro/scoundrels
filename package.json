@@ -13,7 +13,10 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "tsx src/db/seed.ts"
+    "db:seed": "tsx src/db/seed.ts",
+    "prod:env": "vercel env pull .env.production.local --environment=production",
+    "prod:migrate": "drizzle-kit migrate --config=drizzle.prod.config.ts",
+    "prod:promote": "tsx scripts/promote.ts"
   },
   "dependencies": {
     "@tiptap/core": "^3.32.0",
@@ -42,6 +45,7 @@
     "eslint-config-next": "16.4.3",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^65.3.1"
   }
 }

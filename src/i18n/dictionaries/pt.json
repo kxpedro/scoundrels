@@ -21,7 +21,7 @@
     "headline": "Reviews de jogos sem piedade",
     "lead": "A nota da redação Scoundrel ao lado da opinião de quem jogou.",
     "latest": "Lançamentos avaliados",
-    "empty": "Nenhum jogo avaliado ainda. Rode npm run db:seed para carregar exemplos.",
+    "empty": "As primeiras reviews da redação chegam em breve.",
     "featured": "Review em destaque",
     "latestCritics": "Últimas da redação",
     "top": "Top Scoundrel",

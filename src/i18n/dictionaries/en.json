@@ -21,7 +21,7 @@
     "headline": "Merciless game reviews",
     "lead": "The Scoundrel newsroom's score next to the verdict of people who played it.",
     "latest": "Recently reviewed",
-    "empty": "No reviewed games yet. Run npm run db:seed to load samples.",
+    "empty": "The newsroom's first reviews are coming soon.",
     "featured": "Featured review",
     "latestCritics": "Latest from the newsroom",
     "top": "Top Scoundrel",
