@@ -24,14 +24,17 @@ export default function ReportsPage() {
                   <li key={r.id} className="flex flex-wrap items-start justify-between gap-4 py-3">
                     <div className="min-w-0 flex-1">
                       <div className="label-mono flex flex-wrap gap-2 text-[10px] text-muted">
-                        <span className="text-red">{r.target === "user_review" ? "REVIEW" : "COMENTÁRIO"}</span>
+                        <span className="text-red">{r.target === "user_review" ? l.targetReview : l.targetComment}</span>
                         {r.gameTitle && <span>{r.gameTitle}</span>}
+                        {r.hidden && <span className="text-amber">{l.hidden}</span>}
                         <span>@{r.reporter}</span>
                         <RelativeTime date={r.createdAt} labels={dict.time} />
                       </div>
                       {r.excerpt && <p className="mt-1 line-clamp-3 text-fg">“{r.excerpt}”</p>}
                       <p className="mt-1 text-[13px]">
-                        <span className="text-muted">{l.reason}:</span> {r.reason}
+                        <span className="text-muted">{l.reason}:</span>{" "}
+                        {dict.report.reasons[r.reason as keyof typeof dict.report.reasons] ?? r.reason}
+                        {r.count > 1 && <span className="label-mono ml-2 text-[10px] text-red">×{r.count}</span>}
                       </p>
                     </div>
                     <form action={resolveReport} className="flex gap-2">

@@ -1,0 +1,1 @@
+ALTER TABLE "user_reviews" ADD COLUMN "has_spoilers" boolean DEFAULT false NOT NULL;

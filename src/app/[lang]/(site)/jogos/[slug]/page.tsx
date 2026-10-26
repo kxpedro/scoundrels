@@ -6,6 +6,7 @@ import { CriticReviewCard } from "@/components/game/critic-review-card";
 import { GameCard } from "@/components/game/game-card";
 import { GameHero } from "@/components/game/game-hero";
 import { UserReviewItem } from "@/components/game/user-review-item";
+import { MyReview } from "@/components/reviews/my-review";
 import { SectionHeader } from "@/components/ui/section-header";
 import { path } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
@@ -56,6 +57,9 @@ async function GameContent({ params }: Pick<PageProps<"/[lang]/jogos/[slug]">, "
 
       <section className="pt-10">
         <SectionHeader title={dict.game.userReviews} href={`${base}/publico`} linkLabel={dict.game.seeAll} />
+        <Suspense fallback={null}>
+          <MyReview gameId={game.id} gameSlug={game.slug} lang={lang} dict={dict} />
+        </Suspense>
         <AudienceBreakdown
           positive={game.userPositive}
           mixed={game.userMixed}

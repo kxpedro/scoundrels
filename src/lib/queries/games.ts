@@ -122,6 +122,7 @@ export async function getUserReviews(gameId: string, limit = 4, tone?: Tone) {
       id: userReviews.id,
       score: userReviews.score,
       body: userReviews.body,
+      hasSpoilers: userReviews.hasSpoilers,
       likeCount: userReviews.likeCount,
       commentCount: userReviews.commentCount,
       createdAt: userReviews.createdAt,

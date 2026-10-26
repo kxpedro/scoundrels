@@ -15,6 +15,13 @@
       "when": 1793042412636,
       "tag": "0001_fearless_lilandra",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793047613667,
+      "tag": "0002_material_turbo",
+      "breakpoints": true
     }
   ]
 }

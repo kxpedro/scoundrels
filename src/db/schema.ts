@@ -252,6 +252,8 @@ export const userReviews = pgTable(
       .references(() => user.id, { onDelete: "cascade" }),
     score: real("score").notNull(),
     body: text("body"),
+    /** Texto fica escondido até o leitor clicar. */
+    hasSpoilers: boolean("has_spoilers").notNull().default(false),
     locale: locale("locale").notNull().default("pt"),
     visibility: visibility("visibility").notNull().default("visible"),
     likeCount: integer("like_count").notNull().default(0),

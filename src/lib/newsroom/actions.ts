@@ -259,20 +259,22 @@ export async function resolveReport(formData: FormData) {
   const [report] = await db.select().from(reports).where(eq(reports.id, id)).limit(1);
   if (!report || report.status !== "open") return;
 
-  if (decision === "hide") {
-    if (report.target === "user_review") {
-      const [review] = await db
-        .update(userReviews)
-        .set({ visibility: "hidden" })
-        .where(eq(userReviews.id, report.targetId))
-        .returning({ gameId: userReviews.gameId });
-      if (review) {
-        await recomputeGameScores(db, review.gameId);
-        updateTag(tags.gameReviews(review.gameId));
-      }
-    } else {
-      await db.update(comments).set({ visibility: "hidden" }).where(eq(comments.id, report.targetId));
+  // Ocultar confirma a moderação; descartar devolve ao ar o que a ocultação automática escondeu.
+  const visibility = decision === "hide" ? "hidden" : "visible";
+  if (report.target === "user_review") {
+    const [review] = await db
+      .update(userReviews)
+      .set({ visibility })
+      .where(eq(userReviews.id, report.targetId))
+      .returning({ gameId: userReviews.gameId });
+    if (review) {
+      await recomputeGameScores(db, review.gameId);
+      const [game] = await db.select({ slug: games.slug }).from(games).where(eq(games.id, review.gameId)).limit(1);
+      if (game) updateTag(tags.game(game.slug));
+      updateTag(tags.gameReviews(review.gameId));
     }
+  } else {
+    await db.update(comments).set({ visibility }).where(eq(comments.id, report.targetId));
   }
 
   // Fecha todas as denúncias abertas do mesmo alvo de uma vez.

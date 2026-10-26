@@ -184,7 +184,10 @@
       "empty": "Nenhuma denúncia aberta.",
       "hide": "Ocultar conteúdo",
       "dismiss": "Descartar",
-      "reason": "Motivo"
+      "reason": "Motivo",
+      "hidden": "Oculta",
+      "targetReview": "Review",
+      "targetComment": "Comentário"
     },
     "team": {
       "title": "Equipe",
@@ -266,5 +269,51 @@
     "reviews": "Reviews",
     "empty": "Nada encontrado para “{q}”.",
     "hint": "Digite pelo menos 2 letras."
+  },
+  "userReview": {
+    "title": "Sua review",
+    "formTitle": "Sua review de {game}",
+    "bad": "Ruim",
+    "mixed": "Misto",
+    "great": "Ótimo",
+    "scoreLabel": "Sua nota",
+    "youAlready": "Você já…",
+    "playing": "Jogando",
+    "finished": "Zerei",
+    "dropped": "Abandonei",
+    "opinion": "Sua opinião",
+    "optional": "opcional",
+    "placeholder": "O que funcionou, o que não funcionou…",
+    "spoilers": "Contém spoilers",
+    "chars": "{n} / {max}",
+    "publish": "Publicar review",
+    "update": "Atualizar review",
+    "edit": "Editar",
+    "remove": "Apagar",
+    "removeConfirm": "Apagar sua review deste jogo?",
+    "showSpoiler": "Contém spoilers · mostrar",
+    "hiddenNotice": "Sua review está oculta aguardando a moderação.",
+    "errors": {
+      "auth": "Sua sessão expirou. Entre de novo.",
+      "invalid": "Confira a nota e o texto.",
+      "rate_limited": "Muitas reviews em pouco tempo. Tente daqui a alguns minutos.",
+      "not_found": "Jogo não encontrado.",
+      "own": "Você não pode denunciar a própria review."
+    }
+  },
+  "report": {
+    "action": "Denunciar",
+    "title": "Denunciar review de @{user}",
+    "send": "Enviar denúncia",
+    "cancel": "Cancelar",
+    "note": "A redação revisa todas as denúncias. Com 3 denúncias, a review fica oculta até a análise.",
+    "sent": "Denúncia enviada. Obrigado.",
+    "login": "Entre para denunciar",
+    "reasons": {
+      "spoiler": "Spoiler sem aviso",
+      "offensive": "Ofensivo ou discurso de ódio",
+      "spam": "Spam ou propaganda",
+      "off_topic": "Não é sobre o jogo"
+    }
   }
 }

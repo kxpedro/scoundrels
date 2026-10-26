@@ -4,11 +4,13 @@ import { Tag, type TagVariant } from "@/components/ui/tag";
 import { path, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { RelativeTime } from "@/components/ui/relative-time";
+import { ReportButton } from "@/components/reviews/report-button";
+import { SpoilerText } from "@/components/reviews/spoiler-text";
 
 type PlayStatus = "playing" | "finished" | "wishlist" | "dropped";
 
 /** Cor e rota do status (ver "Status de jogo" no design system). */
-const statusMeta: Record<PlayStatus, { variant: TagVariant; slug: string }> = {
+export const statusMeta: Record<PlayStatus, { variant: TagVariant; slug: string }> = {
   playing: { variant: "amber", slug: "jogando" },
   finished: { variant: "cyan", slug: "zerados" },
   wishlist: { variant: "label", slug: "quero-jogar" },
@@ -19,6 +21,7 @@ type Review = {
   id: string;
   score: number;
   body: string | null;
+  hasSpoilers: boolean;
   likeCount: number;
   commentCount: number;
   createdAt: Date;
@@ -46,14 +49,26 @@ export function UserReviewItem({ review, lang, dict }: { review: Review; lang: L
           )}
           <RelativeTime date={review.createdAt} labels={dict.time} className="label-mono text-[11px] text-muted" />
         </div>
-        {review.body && <p className="mt-1">{review.body}</p>}
-        <div className="mt-1.5 flex gap-4 text-[13px] text-muted">
+        {review.body &&
+          (review.hasSpoilers ? (
+            <SpoilerText text={review.body} label={dict.userReview.showSpoiler} />
+          ) : (
+            <p className="mt-1">{review.body}</p>
+          ))}
+        <div className="mt-1.5 flex flex-wrap items-start gap-4 text-[13px] text-muted">
           <span className="inline-flex items-center gap-1">
             <HeartIcon /> {review.likeCount}
           </span>
           <span className="inline-flex items-center gap-1">
             <CommentIcon /> {review.commentCount}
           </span>
+          <ReportButton
+            reviewId={review.id}
+            author={handle}
+            loginHref={path(lang, "/entrar")}
+            labels={dict.report}
+            errors={dict.userReview.errors}
+          />
         </div>
       </div>
     </article>

@@ -184,7 +184,10 @@
       "empty": "No open reports.",
       "hide": "Hide content",
       "dismiss": "Dismiss",
-      "reason": "Reason"
+      "reason": "Reason",
+      "hidden": "Hidden",
+      "targetReview": "Review",
+      "targetComment": "Comment"
     },
     "team": {
       "title": "Team",
@@ -266,5 +269,51 @@
     "reviews": "Reviews",
     "empty": "Nothing found for “{q}”.",
     "hint": "Type at least 2 letters."
+  },
+  "userReview": {
+    "title": "Your review",
+    "formTitle": "Your review of {game}",
+    "bad": "Bad",
+    "mixed": "Mixed",
+    "great": "Great",
+    "scoreLabel": "Your score",
+    "youAlready": "You have…",
+    "playing": "Playing",
+    "finished": "Finished",
+    "dropped": "Dropped",
+    "opinion": "Your take",
+    "optional": "optional",
+    "placeholder": "What worked, what didn't…",
+    "spoilers": "Contains spoilers",
+    "chars": "{n} / {max}",
+    "publish": "Publish review",
+    "update": "Update review",
+    "edit": "Edit",
+    "remove": "Delete",
+    "removeConfirm": "Delete your review of this game?",
+    "showSpoiler": "Contains spoilers · show",
+    "hiddenNotice": "Your review is hidden pending moderation.",
+    "errors": {
+      "auth": "Your session expired. Sign in again.",
+      "invalid": "Check your score and text.",
+      "rate_limited": "Too many reviews in a short time. Try again in a few minutes.",
+      "not_found": "Game not found.",
+      "own": "You can't report your own review."
+    }
+  },
+  "report": {
+    "action": "Report",
+    "title": "Report review by @{user}",
+    "send": "Send report",
+    "cancel": "Cancel",
+    "note": "The newsroom reviews every report. After 3 reports, the review is hidden until it's checked.",
+    "sent": "Report sent. Thanks.",
+    "login": "Sign in to report",
+    "reasons": {
+      "spoiler": "Unmarked spoilers",
+      "offensive": "Offensive or hate speech",
+      "spam": "Spam or advertising",
+      "off_topic": "Not about the game"
+    }
   }
 }

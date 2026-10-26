@@ -134,10 +134,12 @@ export async function catalogIgdbIds(ids: number[]): Promise<Set<number>> {
   return new Set(rows.map((r) => r.igdbId!));
 }
 
+/** Denúncias abertas agrupadas por alvo: uma linha por review/comentário, com a mais recente e o total. */
 export async function listOpenReports() {
   const reporter = aliasedTable(user, "reporter");
-  return db
+  const rows = await db
     .select({
+      hidden: sql<boolean>`coalesce(${userReviews.visibility}, ${comments.visibility}) = 'hidden'`,
       id: reports.id,
       target: reports.target,
       targetId: reports.targetId,
@@ -155,6 +157,15 @@ export async function listOpenReports() {
     .leftJoin(games, eq(games.id, userReviews.gameId))
     .where(eq(reports.status, "open"))
     .orderBy(desc(reports.createdAt));
+
+  const byTarget = new Map<string, (typeof rows)[number] & { count: number }>();
+  for (const row of rows) {
+    const key = `${row.target}:${row.targetId}`;
+    const seen = byTarget.get(key);
+    if (seen) seen.count += 1;
+    else byTarget.set(key, { ...row, count: 1 });
+  }
+  return [...byTarget.values()];
 }
 
 export async function listTeam() {
