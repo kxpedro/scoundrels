@@ -56,8 +56,8 @@ export default async function HomePage() {
             lang={lang}
             empty={dict.home.topEmpty}
             tabs={[
-              { key: "ano", label: dict.home.topYear, rows: topYear },
               { key: "todos", label: dict.home.topAll, rows: topAll },
+              { key: "ano", label: dict.home.topYear, rows: topYear },
               { key: "publico", label: dict.home.topPublic, rows: topPublic },
             ]}
           />

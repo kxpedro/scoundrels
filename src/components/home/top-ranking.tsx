@@ -12,8 +12,11 @@ const toneText = { brand: "text-brand", cyan: "text-cyan", amber: "text-amber", 
 
 /** Ranking da home com abas. As três listas já chegam do servidor (cacheadas); a troca é só no cliente. */
 export function TopRanking({ tabs, lang, empty }: { tabs: Tab[]; lang: string; empty: string }) {
-  const [active, setActive] = useState(tabs[0].key);
-  const tab = tabs.find((t) => t.key === active) ?? tabs[0];
+  // Abas sem nenhum jogo (ex.: Público, que exige 2+ notas) não aparecem; a primeira com dados abre por padrão.
+  const visible = tabs.filter((t) => t.rows.length > 0);
+  const [active, setActive] = useState(visible[0]?.key);
+  const tab = visible.find((t) => t.key === active) ?? visible[0];
+  if (!tab) return <p className="text-[13px] text-muted">{empty}</p>;
   const isPublic = tab.key === "publico";
 
   return (
@@ -40,20 +43,22 @@ export function TopRanking({ tabs, lang, empty }: { tabs: Tab[]; lang: string; e
       ) : (
         <p className="text-[13px] text-muted">{empty}</p>
       )}
-      <div role="tablist" className="label-mono mt-3 flex gap-3 text-[10px]">
-        {tabs.map((t) => (
-          <button
-            key={t.key}
-            role="tab"
-            type="button"
-            aria-selected={t.key === active}
-            onClick={() => setActive(t.key)}
-            className="text-muted hover:text-fg aria-selected:text-brand aria-selected:underline aria-selected:underline-offset-4"
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
+      {visible.length > 1 && (
+        <div role="tablist" className="label-mono mt-3 flex gap-3 text-[10px]">
+          {visible.map((t) => (
+            <button
+              key={t.key}
+              role="tab"
+              type="button"
+              aria-selected={t.key === tab.key}
+              onClick={() => setActive(t.key)}
+              className="text-muted hover:text-fg aria-selected:text-brand aria-selected:underline aria-selected:underline-offset-4"
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
