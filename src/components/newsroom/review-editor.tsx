@@ -3,6 +3,7 @@
 import type { JSONContent } from "@tiptap/core";
 import { Placeholder } from "@tiptap/extensions";
 import { EditorContent, useEditor, type Editor } from "@tiptap/react";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import type { CriticReviewStatus } from "@/db/schema";
@@ -10,7 +11,15 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { t } from "@/i18n/interpolate";
 import { cn } from "@/lib/cn";
 import { reviewExtensions } from "@/lib/editor/extensions";
-import { publishReview, requestChanges, saveReview, submitReview, type ReviewInput } from "@/lib/newsroom/actions";
+import {
+  archiveReview,
+  deleteReview,
+  publishReview,
+  requestChanges,
+  saveReview,
+  submitReview,
+  type ReviewInput,
+} from "@/lib/newsroom/actions";
 import { StatusTag } from "./status-tag";
 
 type Labels = Dictionary["newsroom"];
@@ -34,7 +43,7 @@ type Props = {
   review: EditorReview;
   game: { title: string; year: string | null };
   platformOptions: Array<{ id: number; name: string; shortName: string | null }>;
-  permissions: { edit: boolean; submit: boolean; decide: boolean };
+  permissions: { edit: boolean; submit: boolean; decide: boolean; publish: boolean; archive: boolean; delete: boolean };
   labels: Labels;
 };
 
@@ -42,6 +51,9 @@ type SaveState = "idle" | "saving" | "saved" | "error";
 
 export function ReviewEditor({ review, game, platformOptions, permissions, labels }: Props) {
   const l = labels.editor;
+  const a = labels.reviewAdmin;
+  const router = useRouter();
+  const pathname = usePathname();
   const [title, setTitle] = useState(review.title);
   const [excerpt, setExcerpt] = useState(review.excerpt ?? "");
   const [score, setScore] = useState<number | null>(review.score);
@@ -292,8 +304,51 @@ export function ReviewEditor({ review, game, platformOptions, permissions, label
                 )}
               </>
             )}
+            {permissions.publish && review.status === "archived" && (
+              <Button variant="primary" disabled={pending} onClick={() => run(() => publishReview(review.id))}>
+                {a.republish}
+              </Button>
+            )}
             {(permissions.submit || permissions.decide) && !complete && (
               <p className="text-[11px] text-muted">{l.missing}</p>
+            )}
+
+            {(permissions.archive || permissions.delete) && (
+              <div className="mt-3 flex flex-col gap-2 border-t border-line pt-3">
+                {permissions.archive && (
+                  <Button
+                    className="border-amber text-amber"
+                    disabled={pending}
+                    onClick={() => {
+                      if (window.confirm(a.archiveConfirm)) run(() => archiveReview(review.id));
+                    }}
+                  >
+                    {a.archive}
+                  </Button>
+                )}
+                {permissions.delete && (
+                  <Button
+                    className="border-red text-red"
+                    disabled={pending}
+                    onClick={() => {
+                      // Confirmação forte: digitar o título (ou o nome do jogo, se o rascunho não tiver título).
+                      const expected = (title.trim() || game.title).toLowerCase();
+                      const typed = window.prompt(`${a.deletePrompt}\n\n${title.trim() || game.title}`);
+                      if (typed === null) return;
+                      if (typed.trim().toLowerCase() !== expected) return setProblem(a.deleteMismatch);
+                      startTransition(async () => {
+                        const res = await deleteReview(review.id);
+                        if (!res.ok) return setProblem(l.saveError);
+                        lastSaved.current = null; // nada a salvar: evita o aviso de saída
+                        router.push(pathname.replace(/\/redacao\/.*$/, "/redacao"));
+                      });
+                    }}
+                  >
+                    {a.delete}
+                  </Button>
+                )}
+                {permissions.archive && <p className="text-[11px] text-muted">{a.archiveHint}</p>}
+              </div>
             )}
             {problem && (
               <p role="alert" className="text-[13px] text-red">

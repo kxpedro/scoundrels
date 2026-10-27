@@ -165,7 +165,7 @@
       }
     },
     "games": {
-      "title": "Jogos",
+      "title": "Título",
       "lead": "Catálogo do site. Importe do IGDB para trazer capa, gêneros, plataformas e estúdios.",
       "igdbSearch": "Buscar no IGDB",
       "igdbPlaceholder": "Nome do jogo",
@@ -178,7 +178,46 @@
       "manualDate": "Lançamento",
       "create": "Cadastrar",
       "catalog": "No catálogo",
-      "noResults": "Nenhum resultado."
+      "noResults": "Nenhum resultado.",
+      "active": "Ativos",
+      "archivedTab": "Arquivados",
+      "edit": "Editar",
+      "archive": "Arquivar",
+      "restore": "Restaurar",
+      "delete": "Excluir",
+      "archivedBadge": "Arquivado",
+      "archivedHint": "Fora do site · dados preservados",
+      "deleteHint": "\"Excluir\" só aparece para jogos sem nenhuma review. Com reviews, só dá para arquivar.",
+      "deleteConfirm": "Excluir \"{title}\" de vez? Não dá para desfazer.",
+      "archiveConfirm": "Arquivar \"{title}\"? O jogo sai do site, mas as reviews ficam guardadas.",
+      "critics": "{n} críticas",
+      "ratings": "{n} notas",
+      "noReviews": "Sem reviews",
+      "manualSource": "Manual",
+      "searchCatalog": "Filtrar catálogo",
+      "emptyArchived": "Nenhum jogo arquivado.",
+      "editTitle": "Editar jogo",
+      "slug": "Endereço (slug)",
+      "slugWarn": "Mudar o endereço quebra links antigos para esta página.",
+      "releaseDate": "Lançamento",
+      "coverUrl": "URL da capa",
+      "coverHint": "Capa vinda do IGDB ou URL própria (https).",
+      "summary": "Resumo",
+      "taxonomy": "Gêneros · plataformas · estúdios",
+      "taxonomyHint": "Atualizados pelo IGDB. Use \"Ressincronizar\" para trazer as mudanças.",
+      "save": "Salvar",
+      "saved": "Jogo atualizado.",
+      "resync": "↻ Ressincronizar com IGDB",
+      "resynced": "Dados atualizados a partir do IGDB.",
+      "viewOnSite": "Ver no site",
+      "back": "← Jogos",
+      "errors": {
+        "invalid": "Confira os campos: título, endereço (letras minúsculas, números e hífens), data e URL https.",
+        "slug_taken": "Já existe um jogo com esse endereço.",
+        "has_reviews": "Este jogo tem reviews. Arquive em vez de excluir.",
+        "no_igdb": "Este jogo foi cadastrado à mão e não tem vínculo com o IGDB.",
+        "not_found": "Jogo não encontrado."
+      }
     },
     "reports": {
       "title": "Denúncias",
@@ -198,6 +237,16 @@
       "setRole": "Aplicar",
       "notFound": "Nenhum usuário com esse e-mail.",
       "self": "Você não pode alterar o próprio papel."
+    },
+    "reviewAdmin": {
+      "editOnNewsroom": "✎ Editar na redação",
+      "archive": "Arquivar (tira do site)",
+      "republish": "Republicar",
+      "delete": "Excluir definitivamente",
+      "archiveHint": "Arquivar devolve a review para a redação como \"Arquivada\", recalcula a nota do jogo e pode ser republicada.",
+      "deletePrompt": "Para excluir de vez, digite o título da review:",
+      "deleteMismatch": "O título não confere. Nada foi excluído.",
+      "archiveConfirm": "Arquivar esta review? Ela sai do site até ser republicada."
     }
   },
   "errors": {

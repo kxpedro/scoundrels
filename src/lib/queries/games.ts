@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, gte, inArray, isNotNull, lt, ne, sql } from "drizzle-orm";
+import { and, desc, eq, gte, inArray, isNotNull, isNull, lt, ne, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import {
@@ -15,6 +15,9 @@ import {
   user,
   userReviews,
 } from "@/db/schema";
+
+/** Jogo visível no site público (não arquivado). Use em todo where/join de consultas públicas. */
+export const activeGame = isNull(games.archivedAt);
 
 export const tags = {
   /** Dados do jogo (página, agregados). */
@@ -48,7 +51,7 @@ export async function listRecentGames(limit = 12) {
       userScore: games.userScore,
     })
     .from(games)
-    .where(isNotNull(games.criticScore))
+    .where(and(isNotNull(games.criticScore), activeGame))
     .orderBy(desc(games.releaseDate))
     .limit(limit);
 }
@@ -61,7 +64,7 @@ export async function getGameBySlug(slug: string) {
   cacheLife("hours");
   cacheTag(tags.game(slug));
 
-  const [game] = await db.select().from(games).where(eq(games.slug, slug)).limit(1);
+  const [game] = await db.select().from(games).where(and(eq(games.slug, slug), activeGame)).limit(1);
   if (!game) return null;
 
   const [genreRows, platformRows, studioRows] = await Promise.all([
@@ -159,7 +162,7 @@ export async function getSimilarGames(gameId: string, limit = 4) {
       userScore: games.userScore,
     })
     .from(gameGenres)
-    .innerJoin(games, eq(games.id, gameGenres.gameId))
+    .innerJoin(games, and(eq(games.id, gameGenres.gameId), activeGame))
     .where(and(inArray(gameGenres.genreId, ownGenres), ne(games.id, gameId)))
     .groupBy(games.id)
     .orderBy(desc(sql`count(*)`), desc(games.criticScore))
@@ -176,6 +179,7 @@ export async function getPublishedReview(slug: string) {
     .select({
       review: {
         id: criticReviews.id,
+        authorId: criticReviews.authorId,
         title: criticReviews.title,
         excerpt: criticReviews.excerpt,
         body: criticReviews.body,
@@ -202,7 +206,7 @@ export async function getPublishedReview(slug: string) {
       platform: { name: platforms.name, slug: platforms.slug, shortName: platforms.shortName },
     })
     .from(criticReviews)
-    .innerJoin(games, eq(games.id, criticReviews.gameId))
+    .innerJoin(games, and(eq(games.id, criticReviews.gameId), activeGame))
     .innerJoin(user, eq(user.id, criticReviews.authorId))
     .leftJoin(platforms, eq(platforms.id, criticReviews.platformTestedId))
     .where(and(eq(criticReviews.slug, slug), eq(criticReviews.status, "published")))

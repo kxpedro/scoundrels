@@ -1,16 +1,16 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 import { refresh, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { db } from "@/db";
 import { recomputeGameScores } from "@/db/aggregates";
-import { criticReviews, games, reports, user, userReviews, comments } from "@/db/schema";
+import { comments, criticReviews, games, reports, reviewLikes, user, userReviews } from "@/db/schema";
 import { isLocale } from "@/i18n/config";
 import { sanitizeDoc, wordCount } from "@/lib/editor/sanitize";
 import { getIgdbGame, IgdbNotConfiguredError, searchIgdbGames, type IgdbGame } from "@/lib/igdb";
-import { canDecide, canEdit, canSubmit } from "@/lib/newsroom/permissions";
+import { canArchive, canDecide, canDelete, canEdit, canPublish, canSubmit } from "@/lib/newsroom/permissions";
 import { catalogIgdbIds } from "@/lib/newsroom/queries";
 import { createManualGame, upsertIgdbGame } from "@/lib/newsroom/catalog";
 import { ensureHandle } from "@/lib/newsroom/handles";
@@ -159,7 +159,7 @@ export async function requestChanges(id: string, note: string) {
 export async function publishReview(id: string) {
   const me = await actor("editor");
   const review = await loadReview(id);
-  if (!canDecide(me, review)) throw new Error("Sem permissão");
+  if (!canPublish(me, review)) throw new Error("Sem permissão");
   if (!isComplete(review)) throw new Error("incomplete");
 
   const [[game], handle] = await Promise.all([
@@ -283,4 +283,122 @@ export async function resolveReport(formData: FormData) {
     .set({ status: decision === "hide" ? "resolved" : "dismissed", resolvedById: me.id, resolvedAt: new Date() })
     .where(and(eq(reports.target, report.target), eq(reports.targetId, report.targetId), eq(reports.status, "open")));
   refresh();
+}
+
+/* ───────────────────────── Arquivar / excluir reviews ───────────────────────── */
+
+/** Tira a crítica do site (status "archived"); pode ser republicada depois. */
+export async function archiveReview(id: string) {
+  const me = await actor("editor");
+  const review = await loadReview(id);
+  if (!canArchive(me, review)) throw new Error("Sem permissão");
+  await db.update(criticReviews).set({ status: "archived", editorId: me.id }).where(eq(criticReviews.id, id));
+  await invalidatePublic(review.gameId, review.slug);
+  refresh();
+}
+
+/** Apaga de vez a crítica, com curtidas e comentários (que não têm FK por serem polimórficos). */
+export async function deleteReview(id: string): Promise<{ ok: true } | { ok: false; error: "forbidden" }> {
+  const me = await actor("critic");
+  const review = await loadReview(id);
+  if (!canDelete(me, review)) return { ok: false, error: "forbidden" };
+
+  await db.transaction(async (tx) => {
+    await tx.delete(reviewLikes).where(and(eq(reviewLikes.reviewKind, "critic"), eq(reviewLikes.reviewId, id)));
+    await tx.delete(comments).where(and(eq(comments.reviewKind, "critic"), eq(comments.reviewId, id)));
+    await tx.delete(criticReviews).where(eq(criticReviews.id, id));
+  });
+  if (review.status === "published") await invalidatePublic(review.gameId, review.slug);
+  return { ok: true };
+}
+
+/* ───────────────────────── Gestão de jogos ───────────────────────── */
+
+type GameResult = { ok: true; slug?: string } | { ok: false; error: "invalid" | "slug_taken" | "has_reviews" | "no_igdb" | "not_found" };
+
+async function loadGame(id: string) {
+  if (!z.uuid().safeParse(id).success) return null;
+  const [game] = await db.select().from(games).where(eq(games.id, id)).limit(1);
+  return game ?? null;
+}
+
+/** Invalida o jogo (pelo slug antigo e pelo novo, se mudou) e as listagens. */
+function invalidateGame(gameId: string, ...slugs: string[]) {
+  for (const slug of new Set(slugs)) updateTag(tags.game(slug));
+  updateTag(tags.gameReviews(gameId));
+  updateTag(tags.games);
+  updateTag(tags.lists);
+}
+
+const gameInput = z.object({
+  title: z.string().trim().min(1).max(160),
+  slug: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+    .max(80),
+  releaseDate: z.iso.date().nullable(),
+  coverUrl: z.url({ protocol: /^https$/ }).max(500).nullable(),
+  summary: z.string().trim().max(2000),
+});
+export type GameInput = z.input<typeof gameInput>;
+
+export async function updateGame(id: string, input: GameInput): Promise<GameResult> {
+  await actor("editor");
+  const game = await loadGame(id);
+  if (!game) return { ok: false, error: "not_found" };
+  const parsed = gameInput.safeParse(input);
+  if (!parsed.success) return { ok: false, error: "invalid" };
+  const data = parsed.data;
+
+  if (data.slug !== game.slug) {
+    const [taken] = await db.select({ id: games.id }).from(games).where(eq(games.slug, data.slug)).limit(1);
+    if (taken) return { ok: false, error: "slug_taken" };
+  }
+  await db
+    .update(games)
+    .set({ title: data.title, slug: data.slug, releaseDate: data.releaseDate, coverUrl: data.coverUrl, summary: data.summary || null })
+    .where(eq(games.id, id));
+  invalidateGame(id, game.slug, data.slug);
+  return { ok: true, slug: data.slug };
+}
+
+export async function setGameArchived(id: string, archived: boolean): Promise<GameResult> {
+  await actor("editor");
+  const game = await loadGame(id);
+  if (!game) return { ok: false, error: "not_found" };
+  await db.update(games).set({ archivedAt: archived ? new Date() : null }).where(eq(games.id, id));
+  invalidateGame(id, game.slug);
+  refresh();
+  return { ok: true };
+}
+
+/** Exclusão definitiva: só admin e só sem nenhuma review (crítica ou do público). */
+export async function deleteGame(id: string): Promise<GameResult> {
+  await actor("admin");
+  const game = await loadGame(id);
+  if (!game) return { ok: false, error: "not_found" };
+  const [[critics], [users]] = await Promise.all([
+    db.select({ n: count() }).from(criticReviews).where(eq(criticReviews.gameId, id)),
+    db.select({ n: count() }).from(userReviews).where(eq(userReviews.gameId, id)),
+  ]);
+  if (critics.n + users.n > 0) return { ok: false, error: "has_reviews" };
+  await db.delete(games).where(eq(games.id, id)); // cascade: gêneros, plataformas, estúdios, status, itens de lista
+  invalidateGame(id, game.slug);
+  refresh();
+  return { ok: true };
+}
+
+/** Recarrega do IGDB título, capa, data, resumo, gêneros, plataformas e estúdios (o slug é mantido). */
+export async function resyncGame(id: string): Promise<GameResult> {
+  await actor("editor");
+  const game = await loadGame(id);
+  if (!game) return { ok: false, error: "not_found" };
+  if (!game.igdbId) return { ok: false, error: "no_igdb" };
+  const fresh = await getIgdbGame(game.igdbId);
+  if (!fresh) return { ok: false, error: "not_found" };
+  await upsertIgdbGame(fresh);
+  invalidateGame(id, game.slug);
+  return { ok: true, slug: game.slug };
 }

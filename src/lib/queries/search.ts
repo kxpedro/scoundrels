@@ -3,7 +3,7 @@ import { and, desc, eq, ilike, ne, or, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import { criticReviews, games, user } from "@/db/schema";
-import { tags } from "./games";
+import { activeGame, tags } from "./games";
 
 const like = (term: string) => `%${term.replace(/[%_\\]/g, "\\$&")}%`;
 
@@ -24,7 +24,7 @@ export async function searchSite(term: string) {
         userScore: games.userScore,
       })
       .from(games)
-      .where(ilike(games.title, q))
+      .where(and(ilike(games.title, q), activeGame))
       .orderBy(sql`${games.criticCount} + ${games.userCount} desc`)
       .limit(12),
     db
@@ -41,7 +41,7 @@ export async function searchSite(term: string) {
         author: user.name,
       })
       .from(criticReviews)
-      .innerJoin(games, eq(games.id, criticReviews.gameId))
+      .innerJoin(games, and(eq(games.id, criticReviews.gameId), activeGame))
       .innerJoin(user, eq(user.id, criticReviews.authorId))
       .where(and(eq(criticReviews.status, "published"), or(ilike(criticReviews.title, q), ilike(games.title, q))))
       .orderBy(desc(criticReviews.publishedAt))

@@ -165,7 +165,7 @@
       }
     },
     "games": {
-      "title": "Games",
+      "title": "Title",
       "lead": "Site catalog. Import from IGDB to bring cover, genres, platforms and studios.",
       "igdbSearch": "Search IGDB",
       "igdbPlaceholder": "Game name",
@@ -178,7 +178,46 @@
       "manualDate": "Release date",
       "create": "Create",
       "catalog": "In the catalog",
-      "noResults": "No results."
+      "noResults": "No results.",
+      "active": "Active",
+      "archivedTab": "Archived",
+      "edit": "Edit",
+      "archive": "Archive",
+      "restore": "Restore",
+      "delete": "Delete",
+      "archivedBadge": "Archived",
+      "archivedHint": "Off the site · data kept",
+      "deleteHint": "\"Delete\" only shows for games with no reviews. With reviews, archive instead.",
+      "deleteConfirm": "Delete \"{title}\" for good? This can't be undone.",
+      "archiveConfirm": "Archive \"{title}\"? The game leaves the site, but its reviews are kept.",
+      "critics": "{n} critic reviews",
+      "ratings": "{n} ratings",
+      "noReviews": "No reviews",
+      "manualSource": "Manual",
+      "searchCatalog": "Filter catalog",
+      "emptyArchived": "No archived games.",
+      "editTitle": "Edit game",
+      "slug": "Address (slug)",
+      "slugWarn": "Changing the address breaks old links to this page.",
+      "releaseDate": "Release date",
+      "coverUrl": "Cover URL",
+      "coverHint": "Cover from IGDB or your own URL (https).",
+      "summary": "Summary",
+      "taxonomy": "Genres · platforms · studios",
+      "taxonomyHint": "Managed by IGDB. Use \"Resync\" to pull changes.",
+      "save": "Save",
+      "saved": "Game updated.",
+      "resync": "↻ Resync with IGDB",
+      "resynced": "Data refreshed from IGDB.",
+      "viewOnSite": "View on site",
+      "back": "← Games",
+      "errors": {
+        "invalid": "Check the fields: title, address (lowercase letters, numbers and hyphens), date and https URL.",
+        "slug_taken": "Another game already uses that address.",
+        "has_reviews": "This game has reviews. Archive it instead.",
+        "no_igdb": "This game was added manually and isn't linked to IGDB.",
+        "not_found": "Game not found."
+      }
     },
     "reports": {
       "title": "Reports",
@@ -198,6 +237,16 @@
       "setRole": "Apply",
       "notFound": "No user with that email.",
       "self": "You can't change your own role."
+    },
+    "reviewAdmin": {
+      "editOnNewsroom": "✎ Edit in newsroom",
+      "archive": "Archive (take off site)",
+      "republish": "Republish",
+      "delete": "Delete permanently",
+      "archiveHint": "Archiving sends the review back to the newsroom as \"Archived\", recalculates the game score and can be republished.",
+      "deletePrompt": "To delete for good, type the review title:",
+      "deleteMismatch": "The title doesn't match. Nothing was deleted.",
+      "archiveConfirm": "Archive this review? It leaves the site until republished."
     }
   },
   "errors": {

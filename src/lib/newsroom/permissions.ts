@@ -28,3 +28,19 @@ export function canDecide(actor: Actor, review: Review): boolean {
 export function canView(actor: Actor, review: Review): boolean {
   return isEditor(actor) || review.authorId === actor.id;
 }
+
+/** Publicar: revisão aprovada ou republicação de algo arquivado. */
+export function canPublish(actor: Actor, review: Review): boolean {
+  return isEditor(actor) && (review.status === "in_review" || review.status === "archived");
+}
+
+/** Arquivar tira do site sem apagar. */
+export function canArchive(actor: Actor, review: Review): boolean {
+  return isEditor(actor) && review.status === "published";
+}
+
+/** Excluir de vez: editores sempre; o autor só enquanto o texto ainda está com ele. */
+export function canDelete(actor: Actor, review: Review): boolean {
+  if (isEditor(actor)) return true;
+  return review.authorId === actor.id && (review.status === "draft" || review.status === "changes_requested");
+}

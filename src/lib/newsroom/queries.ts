@@ -1,13 +1,17 @@
 import "server-only";
-import { aliasedTable, and, count, desc, eq, gte, ilike, inArray, ne, sql } from "drizzle-orm";
+import { aliasedTable, and, count, desc, eq, gte, ilike, inArray, isNotNull, isNull, ne, sql } from "drizzle-orm";
 import { db } from "@/db";
 import {
   comments,
   criticReviews,
+  gameGenres,
   gamePlatforms,
+  gameStudios,
   games,
+  genres,
   platforms,
   reports,
+  studios,
   user,
   userReviews,
   type CriticReviewStatus,
@@ -174,4 +178,62 @@ export async function listTeam() {
     .from(user)
     .where(ne(user.role, "user"))
     .orderBy(user.role, user.name);
+}
+
+export type NewsroomGameRow = Awaited<ReturnType<typeof listNewsroomGames>>[number];
+
+/** Catálogo para a gestão da redação, com contagem de reviews (inclui arquivados quando pedido). */
+export async function listNewsroomGames({ archived, term = "", limit = 200 }: { archived: boolean; term?: string; limit?: number }) {
+  const q = term.trim();
+  return db
+    .select({
+      id: games.id,
+      slug: games.slug,
+      title: games.title,
+      coverUrl: games.coverUrl,
+      releaseDate: games.releaseDate,
+      igdbId: games.igdbId,
+      archivedAt: games.archivedAt,
+      criticReviews: sql<number>`(select count(*)::int from ${criticReviews} cr where cr.game_id = ${sql.raw(`"games"."id"`)})`,
+      userReviews: sql<number>`(select count(*)::int from ${userReviews} ur where ur.game_id = ${sql.raw(`"games"."id"`)})`,
+    })
+    .from(games)
+    .where(
+      and(
+        archived ? isNotNull(games.archivedAt) : isNull(games.archivedAt),
+        q ? ilike(games.title, `%${q.replace(/[%_\\]/g, "\\$&")}%`) : undefined,
+      ),
+    )
+    .orderBy(desc(games.updatedAt))
+    .limit(limit);
+}
+
+export async function countNewsroomGames() {
+  const [row] = await db
+    .select({
+      active: sql<number>`count(*) filter (where ${games.archivedAt} is null)::int`,
+      archived: sql<number>`count(*) filter (where ${games.archivedAt} is not null)::int`,
+    })
+    .from(games);
+  return row;
+}
+
+/** Jogo para o formulário de edição (inclui arquivados), com a taxonomia vinda do IGDB. */
+export async function getGameForEdit(slug: string) {
+  const [game] = await db.select().from(games).where(eq(games.slug, slug)).limit(1);
+  if (!game) return null;
+  const [genreRows, platformRows, studioRows] = await Promise.all([
+    db.select({ name: genres.namePt }).from(gameGenres).innerJoin(genres, eq(genres.id, gameGenres.genreId)).where(eq(gameGenres.gameId, game.id)),
+    db
+      .select({ name: sql<string>`coalesce(${platforms.shortName}, ${platforms.name})` })
+      .from(gamePlatforms)
+      .innerJoin(platforms, eq(platforms.id, gamePlatforms.platformId))
+      .where(eq(gamePlatforms.gameId, game.id)),
+    db
+      .select({ name: studios.name, role: gameStudios.role })
+      .from(gameStudios)
+      .innerJoin(studios, eq(studios.id, gameStudios.studioId))
+      .where(eq(gameStudios.gameId, game.id)),
+  ]);
+  return { ...game, genres: genreRows.map((g) => g.name), platforms: platformRows.map((p) => p.name), studios: studioRows };
 }

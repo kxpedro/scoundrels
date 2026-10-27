@@ -127,6 +127,8 @@ export const games = pgTable(
     userPositive: integer("user_positive").notNull().default(0),
     userMixed: integer("user_mixed").notNull().default(0),
     userNegative: integer("user_negative").notNull().default(0),
+    /** Arquivado = fora do site público, com reviews e notas preservadas. */
+    archivedAt: timestamp("archived_at", { withTimezone: true }),
     ...timestamps,
   },
   (t) => [index("games_release_idx").on(t.releaseDate), index("games_critic_score_idx").on(t.criticScore)],

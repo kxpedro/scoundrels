@@ -3,9 +3,13 @@ import { and, avg, count, desc, eq, ne, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import { criticReviews, games, user } from "@/db/schema";
-import { tags } from "./games";
+import { activeGame, tags } from "./games";
 
-const published = eq(criticReviews.status, "published");
+/** Publicada e de jogo não arquivado (contagens, média e histograma ignoram jogos arquivados). */
+const published = and(
+  eq(criticReviews.status, "published"),
+  sql`exists(select 1 from ${games} g where g.id = ${sql.raw(`"critic_reviews"."game_id"`)} and g.archived_at is null)`,
+);
 
 /** Equipe pública: quem tem papel de redação, com volume e média das críticas publicadas. */
 export async function listCritics() {
@@ -59,7 +63,7 @@ export async function getCriticProfile(handle: string) {
         game: { slug: games.slug, title: games.title },
       })
       .from(criticReviews)
-      .innerJoin(games, eq(games.id, criticReviews.gameId))
+      .innerJoin(games, and(eq(games.id, criticReviews.gameId), activeGame))
       .where(mine)
       .orderBy(desc(criticReviews.publishedAt))
       .limit(100),

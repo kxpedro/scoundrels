@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Cover } from "@/components/game/cover";
+import { EditReviewLink } from "@/components/review/edit-review-link";
 import { ReviewBody } from "@/components/review/review-body";
 import { CommentsThread } from "@/components/social/comments-thread";
 import { LikeButton } from "@/components/social/like-button";
@@ -47,9 +48,14 @@ async function ReviewContent({ params }: Pick<PageProps<"/[lang]/reviews/[slug]"
 
   return (
     <article className="mx-auto max-w-3xl pt-6 pb-10">
-      <Link href={gameHref} className="link-hot label-mono text-[13px] text-cyan">
-        ← {game.title}
-      </Link>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Link href={gameHref} className="link-hot label-mono text-[13px] text-cyan">
+          ← {game.title}
+        </Link>
+        <Suspense fallback={null}>
+          <EditReviewLink reviewId={review.id} authorId={review.authorId} lang={lang} label={dict.newsroom.reviewAdmin.editOnNewsroom} />
+        </Suspense>
+      </div>
 
       <header className="mt-4 grid gap-5 sm:grid-cols-[minmax(0,1fr)_auto]">
         <div>

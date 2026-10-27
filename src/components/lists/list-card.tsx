@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { isOptimizableCover } from "@/lib/igdb-images";
 import Link from "next/link";
 import { path, type Locale } from "@/i18n/config";
 import { t, type Dictionary } from "@/i18n/dictionaries";
@@ -15,7 +16,7 @@ export function ListCard({ list, lang, dict }: { list: ListCardData; lang: Local
           const g = list.covers[i];
           return (
             <div key={i} className="relative aspect-[3/4] bg-raised">
-              {g?.coverUrl && <Image src={g.coverUrl} alt="" fill sizes="80px" className="object-cover" />}
+              {g?.coverUrl && <Image src={g.coverUrl} unoptimized={!isOptimizableCover(g.coverUrl)} alt="" fill sizes="80px" className="object-cover" />}
             </div>
           );
         })}

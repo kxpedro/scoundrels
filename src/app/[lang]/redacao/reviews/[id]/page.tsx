@@ -5,7 +5,7 @@ import { Guard } from "@/components/newsroom/guard";
 import { ReviewEditor } from "@/components/newsroom/review-editor";
 import { path } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
-import { canDecide, canEdit, canSubmit, canView } from "@/lib/newsroom/permissions";
+import { canArchive, canDecide, canDelete, canEdit, canPublish, canSubmit, canView } from "@/lib/newsroom/permissions";
 import { getReviewForEdit } from "@/lib/newsroom/queries";
 
 export default function EditReviewPage(props: PageProps<"/[lang]/redacao/reviews/[id]">) {
@@ -42,7 +42,14 @@ export default function EditReviewPage(props: PageProps<"/[lang]/redacao/reviews
             }}
             game={{ title: data.game.title, year: data.game.releaseDate?.slice(0, 4) ?? null }}
             platformOptions={data.platformOptions}
-            permissions={{ edit: canEdit(me, review), submit: canSubmit(me, review), decide: canDecide(me, review) }}
+            permissions={{
+              edit: canEdit(me, review),
+              submit: canSubmit(me, review),
+              decide: canDecide(me, review),
+              publish: canPublish(me, review),
+              archive: canArchive(me, review),
+              delete: canDelete(me, review),
+            }}
             labels={dict.newsroom}
           />
         );

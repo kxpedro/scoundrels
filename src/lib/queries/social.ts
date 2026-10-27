@@ -4,7 +4,7 @@ import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import { criticReviews, follows, gameStatuses, games, listItems, lists, user, userReviews } from "@/db/schema";
 import type { PlayStatus } from "@/lib/social/constants";
-import { tags } from "./games";
+import { activeGame, tags } from "./games";
 
 /**
  * Referências qualificadas para subconsultas correlacionadas: sem join, o Drizzle escreve a coluna sem tabela
@@ -62,7 +62,7 @@ export async function listUserReviews(userId: string) {
   return db
     .select({ id: userReviews.id, score: userReviews.score, body: userReviews.body, createdAt: userReviews.createdAt, game: gameTile })
     .from(userReviews)
-    .innerJoin(games, eq(games.id, userReviews.gameId))
+    .innerJoin(games, and(eq(games.id, userReviews.gameId), activeGame))
     .where(and(eq(userReviews.userId, userId), eq(userReviews.visibility, "visible")))
     .orderBy(desc(userReviews.createdAt))
     .limit(120);
@@ -76,7 +76,7 @@ export async function listUserGames(userId: string, status: PlayStatus) {
   return db
     .select({ ...gameTile, myScore: userReviews.score })
     .from(gameStatuses)
-    .innerJoin(games, eq(games.id, gameStatuses.gameId))
+    .innerJoin(games, and(eq(games.id, gameStatuses.gameId), activeGame))
     .leftJoin(userReviews, and(eq(userReviews.gameId, gameStatuses.gameId), eq(userReviews.userId, userId)))
     .where(and(eq(gameStatuses.userId, userId), eq(gameStatuses.status, status)))
     .orderBy(desc(gameStatuses.updatedAt))
@@ -98,7 +98,7 @@ const listCard = {
   covers: sql<Array<{ slug: string; title: string; coverUrl: string | null }>>`coalesce((
     select json_agg(json_build_object('slug', g.slug, 'title', g.title, 'coverUrl', g.cover_url) order by li.position)
     from (select * from ${listItems} where list_id = ${LISTS_ID} order by position limit 4) li
-    join ${games} g on g.id = li.game_id
+    join ${games} g on g.id = li.game_id and g.archived_at is null
   ), '[]'::json)`,
 };
 
@@ -157,7 +157,7 @@ export async function getList(handle: string, slug: string) {
   const items = await db
     .select({ gameId: listItems.gameId, position: listItems.position, note: listItems.note, game: gameTile })
     .from(listItems)
-    .innerJoin(games, eq(games.id, listItems.gameId))
+    .innerJoin(games, and(eq(games.id, listItems.gameId), activeGame))
     .where(eq(listItems.listId, row.id))
     .orderBy(asc(listItems.position));
   return { ...row, items };
@@ -200,7 +200,7 @@ export async function getFeed(viewerId: string, filter: FeedFilter, limit = 40):
           .select({ at: criticReviews.publishedAt, actor, game: { slug: games.slug, title: games.title }, slug: criticReviews.slug, title: criticReviews.title, score: criticReviews.score })
           .from(criticReviews)
           .innerJoin(user, eq(user.id, criticReviews.authorId))
-          .innerJoin(games, eq(games.id, criticReviews.gameId))
+          .innerJoin(games, and(eq(games.id, criticReviews.gameId), activeGame))
           .where(and(inArray(criticReviews.authorId, ids), eq(criticReviews.status, "published"), gte(criticReviews.publishedAt, since)))
           .orderBy(desc(criticReviews.publishedAt))
           .limit(limit),
@@ -208,7 +208,7 @@ export async function getFeed(viewerId: string, filter: FeedFilter, limit = 40):
       .select({ at: userReviews.createdAt, actor, game: { slug: games.slug, title: games.title }, body: userReviews.body, score: userReviews.score })
       .from(userReviews)
       .innerJoin(user, eq(user.id, userReviews.userId))
-      .innerJoin(games, eq(games.id, userReviews.gameId))
+      .innerJoin(games, and(eq(games.id, userReviews.gameId), activeGame))
       .where(and(inArray(userReviews.userId, ids), eq(userReviews.visibility, "visible"), gte(userReviews.createdAt, since), roleFilter))
       .orderBy(desc(userReviews.createdAt))
       .limit(limit),
@@ -216,7 +216,7 @@ export async function getFeed(viewerId: string, filter: FeedFilter, limit = 40):
       .select({ at: gameStatuses.updatedAt, actor, game: { slug: games.slug, title: games.title }, status: gameStatuses.status })
       .from(gameStatuses)
       .innerJoin(user, eq(user.id, gameStatuses.userId))
-      .innerJoin(games, eq(games.id, gameStatuses.gameId))
+      .innerJoin(games, and(eq(games.id, gameStatuses.gameId), activeGame))
       // Só os marcos interessantes: zerou ou começou a jogar
       .where(and(inArray(gameStatuses.userId, ids), inArray(gameStatuses.status, ["finished", "playing"]), gte(gameStatuses.updatedAt, since), roleFilter))
       .orderBy(desc(gameStatuses.updatedAt))

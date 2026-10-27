@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { isOptimizableCover } from "@/lib/igdb-images";
 import Link from "next/link";
 import { Guard } from "@/components/newsroom/guard";
 import { NewsroomPageHeader } from "@/components/newsroom/page-header";
@@ -48,7 +49,7 @@ export default function NewReviewPage(props: PageProps<"/[lang]/redacao/reviews/
                 {results.map((g) => (
                   <li key={g.id} className="chamfer flex items-center gap-3 bg-panel p-2.5">
                     <div className="relative h-16 w-12 shrink-0 bg-raised">
-                      {g.coverUrl && <Image src={g.coverUrl} alt="" fill sizes="48px" className="object-cover" />}
+                      {g.coverUrl && <Image src={g.coverUrl} unoptimized={!isOptimizableCover(g.coverUrl)} alt="" fill sizes="48px" className="object-cover" />}
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="truncate font-medium text-fg">{g.title}</div>

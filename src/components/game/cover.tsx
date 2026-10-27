@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { isOptimizableCover } from "@/lib/igdb-images";
 import { cn } from "@/lib/cn";
 
 /** Capa do jogo. Sem imagem, mostra o título sobre um bloco de cor derivada do slug. */
@@ -28,7 +29,7 @@ export function Cover({
       style={url ? undefined : { backgroundColor: `hsl(${hue} 38% 20%)` }}
     >
       {url ? (
-        <Image src={url} alt={title} fill sizes={sizes} priority={priority} className="object-cover" />
+        <Image src={url} unoptimized={!isOptimizableCover(url)} alt={title} fill sizes={sizes} priority={priority} className="object-cover" />
       ) : (
         <span
           className={cn(

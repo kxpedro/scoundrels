@@ -3,7 +3,7 @@ import { and, desc, eq, gte, isNotNull, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import { criticReviews, games, user } from "@/db/schema";
-import { tags } from "./games";
+import { activeGame, tags } from "./games";
 
 const reviewCard = {
   slug: criticReviews.slug,
@@ -24,7 +24,7 @@ export async function listLatestCriticReviews(limit: number) {
   return db
     .select(reviewCard)
     .from(criticReviews)
-    .innerJoin(games, eq(games.id, criticReviews.gameId))
+    .innerJoin(games, and(eq(games.id, criticReviews.gameId), activeGame))
     .innerJoin(user, eq(user.id, criticReviews.authorId))
     .where(eq(criticReviews.status, "published"))
     .orderBy(desc(criticReviews.publishedAt))
@@ -53,12 +53,12 @@ export async function listTopGames(kind: TopKind, limit = 5) {
 
   if (kind === "publico") {
     return base
-      .where(and(isNotNull(games.userScore), gte(games.userCount, 2)))
+      .where(and(isNotNull(games.userScore), gte(games.userCount, 2), activeGame))
       .orderBy(desc(games.userScore), desc(games.userCount))
       .limit(limit);
   }
   return base
-    .where(and(isNotNull(games.criticScore), kind === "ano" ? gte(games.releaseDate, yearStart) : undefined))
+    .where(and(isNotNull(games.criticScore), activeGame, kind === "ano" ? gte(games.releaseDate, yearStart) : undefined))
     .orderBy(desc(games.criticScore), desc(games.criticCount), sql`${games.releaseDate} desc nulls last`)
     .limit(limit);
 }

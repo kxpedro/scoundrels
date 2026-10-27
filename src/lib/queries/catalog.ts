@@ -3,7 +3,7 @@ import { and, asc, count, desc, eq, exists, gte, isNotNull, lt, sql, type SQL } 
 import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import { gameGenres, gamePlatforms, gameStudios, games, genres, platforms, studios } from "@/db/schema";
-import { tags } from "./games";
+import { activeGame, tags } from "./games";
 
 export const catalogSorts = ["nota", "publico", "lancamento"] as const;
 export type CatalogSort = (typeof catalogSorts)[number];
@@ -32,7 +32,7 @@ function releaseRange(release: string): [string, string] | null {
 }
 
 function whereFor(f: CatalogFilters): SQL | undefined {
-  const conds: Array<SQL | undefined> = [];
+  const conds: Array<SQL | undefined> = [activeGame];
   if (f.genre) {
     conds.push(
       exists(
@@ -127,7 +127,7 @@ export async function getCatalogFacets() {
     db
       .select({ year: sql<string>`extract(year from ${games.releaseDate})::int::text` })
       .from(games)
-      .where(isNotNull(games.releaseDate))
+      .where(and(isNotNull(games.releaseDate), activeGame))
       .groupBy(sql`1`)
       .orderBy(desc(sql`1`))
       .limit(6),

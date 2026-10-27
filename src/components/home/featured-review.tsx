@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { isOptimizableCover } from "@/lib/igdb-images";
 import Link from "next/link";
 import { ScoreBadge } from "@/components/ui/score-badge";
 import { path, type Locale } from "@/i18n/config";
@@ -15,6 +16,7 @@ export function FeaturedReview({ review, lang, dict }: { review: ReviewCard; lan
       {review.game.coverUrl && (
         <Image
           src={review.game.coverUrl}
+          unoptimized={!isOptimizableCover(review.game.coverUrl)}
           alt=""
           fill
           priority
