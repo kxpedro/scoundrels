@@ -87,8 +87,8 @@
       "queue": "Review queue",
       "games": "Games · IGDB",
       "reports": "Reports",
-      "team": "Team",
-      "backToSite": "Back to site"
+      "backToSite": "Back to site",
+      "users": "Users"
     },
     "newReview": "+ New review",
     "stats": {
@@ -230,14 +230,6 @@
       "targetReview": "Review",
       "targetComment": "Comment"
     },
-    "team": {
-      "title": "Team",
-      "lead": "Choose who writes and who approves. Critic writes, editor approves and publishes, admin manages everything.",
-      "email": "User email",
-      "setRole": "Apply",
-      "notFound": "No user with that email.",
-      "self": "You can't change your own role."
-    },
     "reviewAdmin": {
       "editOnNewsroom": "✎ Edit in newsroom",
       "archive": "Archive (take off site)",
@@ -247,6 +239,88 @@
       "deletePrompt": "To delete for good, type the review title:",
       "deleteMismatch": "The title doesn't match. Nothing was deleted.",
       "archiveConfirm": "Archive this review? It leaves the site until republished."
+    },
+    "users": {
+      "title": "Users",
+      "lead": "Site accounts: create password logins, adjust roles, suspend or delete.",
+      "newUser": "+ New user",
+      "stats": {
+        "total": "Total",
+        "staff": "Newsroom",
+        "recent": "New · 7 days",
+        "suspended": "Suspended"
+      },
+      "filters": {
+        "todos": "All",
+        "leitores": "Readers",
+        "criticos": "Critics",
+        "editores": "Editors",
+        "admins": "Admins",
+        "suspensos": "Suspended"
+      },
+      "search": "Search by name, handle or email",
+      "columns": {
+        "user": "User",
+        "email": "Email · login",
+        "role": "Role"
+      },
+      "since": "since {date}",
+      "you": "You",
+      "suspendedBadge": "Suspended",
+      "mustChangeBadge": "Password change pending",
+      "reason": "Reason: {reason}",
+      "methods": {
+        "credential": "Email and password",
+        "google": "Google",
+        "discord": "Discord",
+        "link": "Email link"
+      },
+      "actions": {
+        "menu": "More actions",
+        "edit": "Edit name, handle and email",
+        "password": "Set new password",
+        "sessions": "End sessions",
+        "suspend": "Suspend…",
+        "reactivate": "Reactivate",
+        "delete": "Delete account…"
+      },
+      "empty": "No users found.",
+      "form": {
+        "title": "New user",
+        "name": "Name",
+        "email": "Email",
+        "password": "Initial password",
+        "generate": "↻ Generate",
+        "role": "Role",
+        "mustChange": "Ask to change the password on first sign-in",
+        "create": "Create user",
+        "cancel": "Cancel",
+        "once": "The password is shown only once, so you can copy it and send it to the person.",
+        "created": "Account created. Copy the password now:",
+        "copy": "Copy",
+        "copied": "Copied",
+        "handle": "Handle",
+        "jobTitle": "Title (shown on reviews)",
+        "save": "Save",
+        "newPassword": "New password",
+        "setPassword": "Set password",
+        "passwordSet": "Password set. Open sessions were ended.",
+        "suspendReason": "Suspension reason (optional)",
+        "suspendConfirm": "Suspend {name}? They are signed out and can't sign in until reactivated.",
+        "deleteConfirm": "Delete {name}'s account and everything they posted (reviews, lists, comments)? This can't be undone.",
+        "sessionsDone": "Sessions ended.",
+        "saved": "Changes saved."
+      },
+      "errors": {
+        "forbidden": "Not allowed.",
+        "invalid": "Check the fields. Password needs at least 8 characters; handle uses lowercase letters, numbers, dot, hyphen or underscore.",
+        "email_taken": "An account with that email already exists.",
+        "handle_taken": "That handle is taken.",
+        "self": "Use My account to change your own account.",
+        "not_found": "Account not found.",
+        "has_critic_reviews": "This person signs newsroom reviews. Suspend the account instead of deleting it.",
+        "wrong_password": "Current password is incorrect."
+      }
     }
   },
   "errors": {
@@ -472,5 +546,27 @@
     "save": "Save",
     "saved": "Profile updated.",
     "viewProfile": "View my profile"
+  },
+  "authTabs": {
+    "password": "Email and password",
+    "link": "Email link"
+  },
+  "authPassword": {
+    "password": "Password",
+    "submit": "Sign in",
+    "error": "Wrong email or password, or the account is suspended.",
+    "forgot": "Forgot your password? Ask an admin to reset it."
+  },
+  "passwordChange": {
+    "title": "Change password",
+    "required": "Set a new password to keep using your account.",
+    "banner": "Your password was set by an admin. Change it in My account.",
+    "bannerCta": "Change now",
+    "current": "Current password",
+    "next": "New password",
+    "confirm": "Confirm new password",
+    "mismatch": "Passwords don't match.",
+    "save": "Change password",
+    "saved": "Password changed."
   }
 }

@@ -1,10 +1,12 @@
 import "server-only";
 import { betterAuth } from "better-auth";
+import { eq } from "drizzle-orm";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { magicLink } from "better-auth/plugins/magic-link";
 import { db } from "@/db";
 import { account, session, user, verification } from "@/db/schema";
+import { PASSWORD_MAX, PASSWORD_MIN } from "@/lib/auth-constants";
 import { sendEmail } from "@/lib/email";
 import { siteUrl } from "@/lib/site-url";
 
@@ -30,6 +32,26 @@ export const auth = betterAuth({
       handle: { type: "string", required: false, input: false },
       title: { type: "string", required: false, input: false },
       bio: { type: "string", required: false, input: false },
+      bannedAt: { type: "date", required: false, input: false },
+      mustChangePassword: { type: "boolean", required: false, defaultValue: false, input: false },
+    },
+  },
+  // Senha só para contas criadas pelo admin (painel de usuários): sem cadastro público por senha.
+  emailAndPassword: {
+    enabled: true,
+    disableSignUp: true,
+    minPasswordLength: PASSWORD_MIN,
+    maxPasswordLength: PASSWORD_MAX,
+  },
+  databaseHooks: {
+    session: {
+      create: {
+        // Conta suspensa não abre sessão, por nenhum método de login.
+        before: async (s) => {
+          const [row] = await db.select({ bannedAt: user.bannedAt }).from(user).where(eq(user.id, s.userId)).limit(1);
+          if (row?.bannedAt) return false;
+        },
+      },
     },
   },
   socialProviders: {

@@ -15,7 +15,9 @@ export { hasRole, roles, type Role } from "@/lib/session-roles";
 export const getSession = cache(async () => {
   // O Better Auth compara a expiração com new Date(); connection() deixa a leitura só em tempo de requisição.
   await connection();
-  return auth.api.getSession({ headers: await headers() });
+  const session = await auth.api.getSession({ headers: await headers() });
+  // Suspensão vale na hora, mesmo para uma sessão aberta antes dela.
+  return session?.user.bannedAt ? null : session;
 });
 
 /** Exige login e papel mínimo. 401 sem sessão, 403 sem permissão. */

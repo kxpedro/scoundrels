@@ -59,6 +59,11 @@ export const user = pgTable("user", {
   /** Cargo exibido na assinatura do crítico ("Editor-chefe", "Crítica"). */
   title: text("title"),
   bio: text("bio"),
+  /** Suspensão pelo admin: bloqueia novos logins e derruba as sessões. */
+  bannedAt: timestamp("banned_at", { withTimezone: true }),
+  banReason: text("ban_reason"),
+  /** Conta criada pelo admin com senha inicial: pede troca no primeiro acesso. */
+  mustChangePassword: boolean("must_change_password").notNull().default(false),
   ...timestamps,
 });
 

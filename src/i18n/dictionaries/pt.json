@@ -87,8 +87,8 @@
       "queue": "Fila de revisão",
       "games": "Jogos · IGDB",
       "reports": "Denúncias",
-      "team": "Equipe",
-      "backToSite": "Voltar ao site"
+      "backToSite": "Voltar ao site",
+      "users": "Usuários"
     },
     "newReview": "+ Nova review",
     "stats": {
@@ -230,14 +230,6 @@
       "targetReview": "Review",
       "targetComment": "Comentário"
     },
-    "team": {
-      "title": "Equipe",
-      "lead": "Defina quem escreve e quem aprova. Crítico escreve, editor aprova e publica, admin gerencia tudo.",
-      "email": "E-mail do usuário",
-      "setRole": "Aplicar",
-      "notFound": "Nenhum usuário com esse e-mail.",
-      "self": "Você não pode alterar o próprio papel."
-    },
     "reviewAdmin": {
       "editOnNewsroom": "✎ Editar na redação",
       "archive": "Arquivar (tira do site)",
@@ -247,6 +239,88 @@
       "deletePrompt": "Para excluir de vez, digite o título da review:",
       "deleteMismatch": "O título não confere. Nada foi excluído.",
       "archiveConfirm": "Arquivar esta review? Ela sai do site até ser republicada."
+    },
+    "users": {
+      "title": "Usuários",
+      "lead": "Contas do site: crie acessos com senha, ajuste papéis, suspenda ou exclua.",
+      "newUser": "+ Novo usuário",
+      "stats": {
+        "total": "Total",
+        "staff": "Redação",
+        "recent": "Novos · 7 dias",
+        "suspended": "Suspensos"
+      },
+      "filters": {
+        "todos": "Todos",
+        "leitores": "Leitores",
+        "criticos": "Críticos",
+        "editores": "Editores",
+        "admins": "Admins",
+        "suspensos": "Suspensos"
+      },
+      "search": "Buscar por nome, @ ou e-mail",
+      "columns": {
+        "user": "Usuário",
+        "email": "E-mail · login",
+        "role": "Papel"
+      },
+      "since": "desde {date}",
+      "you": "Você",
+      "suspendedBadge": "Suspenso",
+      "mustChangeBadge": "Troca de senha pendente",
+      "reason": "Motivo: {reason}",
+      "methods": {
+        "credential": "E-mail e senha",
+        "google": "Google",
+        "discord": "Discord",
+        "link": "Link por e-mail"
+      },
+      "actions": {
+        "menu": "Mais ações",
+        "edit": "Editar nome, @ e e-mail",
+        "password": "Definir nova senha",
+        "sessions": "Encerrar sessões",
+        "suspend": "Suspender…",
+        "reactivate": "Reativar",
+        "delete": "Excluir conta…"
+      },
+      "empty": "Nenhum usuário encontrado.",
+      "form": {
+        "title": "Novo usuário",
+        "name": "Nome",
+        "email": "E-mail",
+        "password": "Senha inicial",
+        "generate": "↻ Gerar",
+        "role": "Papel",
+        "mustChange": "Pedir para trocar a senha no primeiro acesso",
+        "create": "Criar usuário",
+        "cancel": "Cancelar",
+        "once": "A senha aparece uma única vez para você copiar e enviar à pessoa.",
+        "created": "Conta criada. Copie a senha agora:",
+        "copy": "Copiar",
+        "copied": "Copiado",
+        "handle": "@",
+        "jobTitle": "Cargo (aparece nas críticas)",
+        "save": "Salvar",
+        "newPassword": "Nova senha",
+        "setPassword": "Definir senha",
+        "passwordSet": "Senha definida. As sessões abertas foram encerradas.",
+        "suspendReason": "Motivo da suspensão (opcional)",
+        "suspendConfirm": "Suspender {name}? A pessoa é desconectada e não consegue entrar até ser reativada.",
+        "deleteConfirm": "Excluir a conta de {name} e tudo o que ela publicou (reviews, listas, comentários)? Não dá para desfazer.",
+        "sessionsDone": "Sessões encerradas.",
+        "saved": "Alterações salvas."
+      },
+      "errors": {
+        "forbidden": "Sem permissão.",
+        "invalid": "Confira os campos. Senha com pelo menos 8 caracteres; @ com letras minúsculas, números, ponto, hífen ou sublinhado.",
+        "email_taken": "Já existe uma conta com esse e-mail.",
+        "handle_taken": "Esse @ já está em uso.",
+        "self": "Use Minha conta para alterar a sua própria conta.",
+        "not_found": "Conta não encontrada.",
+        "has_critic_reviews": "Esta pessoa assina críticas da redação. Suspenda a conta em vez de excluir.",
+        "wrong_password": "Senha atual incorreta."
+      }
     }
   },
   "errors": {
@@ -472,5 +546,27 @@
     "save": "Salvar",
     "saved": "Perfil atualizado.",
     "viewProfile": "Ver meu perfil"
+  },
+  "authTabs": {
+    "password": "E-mail e senha",
+    "link": "Link por e-mail"
+  },
+  "authPassword": {
+    "password": "Senha",
+    "submit": "Entrar",
+    "error": "E-mail ou senha incorretos, ou conta suspensa.",
+    "forgot": "Esqueceu a senha? Peça a um admin para redefinir."
+  },
+  "passwordChange": {
+    "title": "Trocar senha",
+    "required": "Defina uma nova senha para continuar usando sua conta.",
+    "banner": "Sua senha foi definida por um admin. Troque-a em Minha conta.",
+    "bannerCta": "Trocar agora",
+    "current": "Senha atual",
+    "next": "Nova senha",
+    "confirm": "Confirmar nova senha",
+    "mismatch": "As senhas não conferem.",
+    "save": "Trocar senha",
+    "saved": "Senha alterada."
   }
 }

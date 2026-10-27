@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { MustChangeBanner } from "@/components/account/must-change-banner";
 import { NewsroomSidebar } from "@/components/newsroom/sidebar";
 
 export const metadata: Metadata = { title: "Redação", robots: { index: false, follow: false } };
@@ -10,7 +11,12 @@ export default function NewsroomLayout({ children }: LayoutProps<"/[lang]/redaca
       <Suspense fallback={<aside className="hidden bg-[#100e18] md:block" />}>
         <NewsroomSidebar />
       </Suspense>
-      <main className="min-w-0 px-4 py-6 sm:px-7">{children}</main>
+      <main className="min-w-0 px-4 py-6 sm:px-7">
+        <Suspense fallback={null}>
+          <MustChangeBanner />
+        </Suspense>
+        {children}
+      </main>
     </div>
   );
 }

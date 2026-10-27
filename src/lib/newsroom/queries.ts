@@ -1,5 +1,5 @@
 import "server-only";
-import { aliasedTable, and, count, desc, eq, gte, ilike, inArray, isNotNull, isNull, ne, sql } from "drizzle-orm";
+import { aliasedTable, and, count, desc, eq, gte, ilike, inArray, isNotNull, isNull, sql } from "drizzle-orm";
 import { db } from "@/db";
 import {
   comments,
@@ -172,13 +172,6 @@ export async function listOpenReports() {
   return [...byTarget.values()];
 }
 
-export async function listTeam() {
-  return db
-    .select({ id: user.id, name: user.name, email: user.email, role: user.role, title: user.title, handle: user.handle })
-    .from(user)
-    .where(ne(user.role, "user"))
-    .orderBy(user.role, user.name);
-}
 
 export type NewsroomGameRow = Awaited<ReturnType<typeof listNewsroomGames>>[number];
 

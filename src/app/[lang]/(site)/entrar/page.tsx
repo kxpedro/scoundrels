@@ -18,7 +18,7 @@ export default async function SignInPage() {
       <p className="mt-2 mb-8 text-muted">{dict.auth.lead}</p>
       {/* useSearchParams (?next=) é runtime → precisa de boundary. */}
       <Suspense>
-        <SignInForm providers={enabledProviders} labels={dict.auth} />
+        <SignInForm providers={enabledProviders} labels={dict.auth} tabs={dict.authTabs} passwordLabels={dict.authPassword} />
       </Suspense>
     </section>
   );

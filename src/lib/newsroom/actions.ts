@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { db } from "@/db";
 import { recomputeGameScores } from "@/db/aggregates";
-import { comments, criticReviews, games, reports, reviewLikes, user, userReviews } from "@/db/schema";
+import { comments, criticReviews, games, reports, reviewLikes, userReviews } from "@/db/schema";
 import { isLocale } from "@/i18n/config";
 import { sanitizeDoc, wordCount } from "@/lib/editor/sanitize";
 import { getIgdbGame, IgdbNotConfiguredError, searchIgdbGames, type IgdbGame } from "@/lib/igdb";
@@ -16,7 +16,7 @@ import { createManualGame, upsertIgdbGame } from "@/lib/newsroom/catalog";
 import { ensureHandle } from "@/lib/newsroom/handles";
 import { tags } from "@/lib/queries/games";
 import { getSession } from "@/lib/session";
-import { hasRole, isRole, type Role } from "@/lib/session-roles";
+import { hasRole, type Role } from "@/lib/session-roles";
 
 /**
  * Server Actions são endpoints POST públicos: toda ação revalida sessão e permissão aqui,
@@ -225,28 +225,6 @@ export async function createGameManually(formData: FormData) {
   await createManualGame(title, date);
   updateTag(tags.games);
   refresh();
-}
-
-/* ───────────────────────── Equipe ───────────────────────── */
-
-export async function setUserRole(formData: FormData): Promise<{ ok: boolean; error?: "not_found" | "self" }> {
-  const me = await actor("admin");
-  const email = z.email().parse(String(formData.get("email") ?? "").trim().toLowerCase());
-  const role = String(formData.get("role"));
-  if (!isRole(role)) throw new Error("Papel inválido");
-
-  const [target] = await db.select({ id: user.id }).from(user).where(eq(user.email, email)).limit(1);
-  if (!target) return { ok: false, error: "not_found" };
-  if (target.id === me.id) return { ok: false, error: "self" };
-
-  await db
-    .update(user)
-    .set({ role, title: z.string().trim().max(60).nullable().catch(null).parse(formData.get("title") || null) })
-    .where(eq(user.id, target.id));
-  if (role !== "user") await ensureHandle(target.id);
-  updateTag(tags.games); // lista pública de críticos
-  refresh();
-  return { ok: true };
 }
 
 /* ───────────────────────── Denúncias ───────────────────────── */

@@ -41,7 +41,7 @@ export async function NewsroomSidebar() {
             </NavLink>
           </>
         )}
-        {hasRole(user.role, "admin") && <NavLink href={`${base}/equipe`}>{nr.nav.team}</NavLink>}
+        {hasRole(user.role, "admin") && <NavLink href={`${base}/usuarios`}>{nr.nav.users}</NavLink>}
       </nav>
 
       <div className="mt-6 border-t border-line px-2.5 pt-3 md:mt-auto">
